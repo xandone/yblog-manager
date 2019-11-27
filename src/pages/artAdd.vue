@@ -33,16 +33,17 @@ export default {
             editorHtml: '',
             editorText: '',
             editor: '',
+            qiniu_token: '',
         }
     },
     mounted() {
-        this.editor = new E('#bar', '#editor')
-        this.editor.customConfig.onchange = (html) => {
-            this.editorHtml = html
-            this.editorText = editor.txt.text();
-        }
-        this.editor.customConfig.uploadImgServer = '/upload'
-        this.editor.create();
+        // this.editor = new E('#bar', '#editor')
+        // this.editor.customConfig.onchange = (html) => {
+        //     this.editorHtml = html
+        //     this.editorText = editor.txt.text();
+        // }
+        // this.editor.customConfig.uploadImgServer = '/upload'
+        // this.editor.create();
         // 获取七牛
         this.get_qiniu();
     },
@@ -52,6 +53,9 @@ export default {
         },
         getEtText() {
             return this.editorText;
+        },
+        uploadImg() {
+            this.upload_imgs();
         },
         addJokes() {
             this.$axios.post(`/art/add`, {
@@ -77,7 +81,11 @@ export default {
 
         },
         upload_imgs: function() {
-            this.editor = new wangeditor('#editor');
+            this.editor = new E('#bar', '#editor');
+            this.editor.customConfig.onchange = (html) => {
+                this.editorHtml = html;
+                this.editorText = this.editor.txt.text();
+            }
             this.editor.customConfig.menus = [
                 'head', // 标题
                 'bold', // 粗体
@@ -99,12 +107,13 @@ export default {
                 'redo' // 重复
             ]
             // 这里用的是七牛华南的服务器
-            this.editor.customConfig.uploadImgServer = 'http://up-z0.qiniu.com'
+            this.editor.customConfig.uploadImgServer = 'http://up-z2.qiniup.com'
             // 这个地方是禁止网络上传tab
             this.editor.customConfig.showLinkImg = false;
             // 这个地方是显示上传本地图片的tab
             this.editor.customConfig.uploadFileName = 'file'
             // 这里显示的是用户标识token
+            console.log("token===" + this.qiniu_token);
             this.editor.customConfig.uploadImgParams = { token: this.qiniu_token }
             var that = this;
             this.editor.customConfig.uploadImgHooks = {
@@ -126,7 +135,7 @@ export default {
                 },
                 customInsert: function(insertImg, result, editor) {
                     // 这个hash就是我前面说的key值啦
-                    var url = that.img_url + result.hash;
+                    var url = "http://q1kdflm5d.bkt.clouddn.com/" + result.hash;
                     insertImg(url)
                     console.log('customInsert', insertImg, result, editor);
                     // result 必须是一个 JSON 格式字符串！！！否则报错
@@ -136,22 +145,15 @@ export default {
         },
 
         get_qiniu() {
+            var that = this;
             this.$axios
-                .get('http://q1kdflm5d.bkt.clouddn.com')
+                .get('http://localhost:8081/yblog/qiniu/getToken')
                 .then((result) => {
-                    var res = JSON.parse(result);
-                    if (res.state == '0001') {
-                        // 这个是后台返回给我的链接到时候我上传到七牛会的得到一个Key,这个链接的作用就是这个
-                        that.img_url = res.result.BucketDomain;
-                        // 因为我这边的业务逻辑是需要区分用户的所以需要需要记录后台的token
-                        that.qiniu_token = res.result.token;
-                        //因为一些奇葩操作导致重新实例（导致在编辑器里面出现一个编辑器，很恶心啊）所以当检测之前的那个实例
-                        if (that.editor != '') { that.editor.destory(); }
-                        // 这里初始化上传图片那个功能
-                        that.upload_imgs();
-                    } else {
-                        console.log('unknown problems');
+                    that.qiniu_token = result.data.msg;
+                    if (that.editor != '') {
+                        // that.editor.destory();
                     }
+                    that.upload_imgs();
                 })
                 .catch((error) => {
                     console.log(error);
