@@ -1,23 +1,49 @@
 <template>
-    <div class="home">
-        <artAdd></artAdd>
-    </div>
+    <el-container style="height: 100%; border: 1px solid #eee">
+        <el-aside width="280px">
+            <el-menu style="height: 100%; text-align: left" :default-active="defaultActive" background-color="#545c64" text-color="#fff" router>
+                <!-- <el-menu-item index="manager"><i class="el-icon-s-home"></i>首页</el-menu-item> -->
+                <el-submenu index="1">
+                    <template slot="title"><i class="el-icon-menu"></i>段子管理</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="jokeList">编程列表</el-menu-item>
+                        <el-menu-item index="artAdd">新增编程</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+        <el-main style="padding: 0; overflow: auto;">
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
+        </el-main>
+    </el-container>
 </template>
 <script>
-// @ is an alias to /src
-import artAdd from '@/pages/artAdd.vue'
-
 export default {
-    name: 'home',
-    components: {
-        artAdd
-    }
-}
+    data() {
+       
+    },
+    computed: {
+        defaultActive: function() {
+            return this.$route.path.replace('/', '');
+        }
+    },
+};
 </script>
+<style>
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+}
 
-<style lang="scss">
-	.home{
-		width: 100%;
-		height: 100%;
-	}
+.el-aside {
+    color: #333;
+}
+
+.fillcontain {
+    height: 100%;
+    width: 100%;
+}
 </style>
