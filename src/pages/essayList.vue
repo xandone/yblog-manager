@@ -1,52 +1,18 @@
 <template>
     <div class="fillcontain">
         <headTop></headTop>
-        <div class="search-root">
-            <el-form :model="ruleForm" label-width="110px" class="demo-formData" style="margin-top: 10px">
-                <el-form-item label="关键字" prop="title">
-                    <el-input v-model="keyWords" placeholder="请输入关键字" style='width: 600px' clearable>
-                        <el-select v-model="ruleForm.keySelect" slot="prepend" placeholder="ruleForm.keySelect" style="width: 130px;">
-                            <el-option label="标题名称" value="1"></el-option>
-                            <el-option label="文章ID" value="2"></el-option>
-                            <el-option label="作者ID" value="3"></el-option>
-                        </el-select>
-                    </el-input>
-                </el-form-item>
-            </el-form>
-            <el-form :model="ruleForm" :inline="true" label-width="110px" class="demo-formData" style="margin-top: 10px">
-                <el-form-item label="种类">
-                    <el-select v-model="ruleForm.selectType" placeholder="ruleForm.selectType">
-                        <el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="标签">
-                    <el-select v-model="ruleForm.selectTag" placeholder="ruleForm.selectTag">
-                        <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-            <div style="text-align: left;padding-left: 110px;">
-                <el-button @click="dealSearchJokes()" type="primary" size="small">确定</el-button>
-                <el-button @click="resetForm()" size="small">重置</el-button>
-            </div>
-        </div>
         <div class="table_container">
             <el-table :data="tableData" highlight-current-row>
                 <el-table-column type='expand'>
                     <el-form slot-scope="props" label-position="left" inline class="demo-table-expand">
                         <el-form-item label="作者ID">
-                            <span>{{ props.row.jokeUserId }}</span>
+                            <span>{{ props.row.artUserId }}</span>
                         </el-form-item>
                         <el-form-item label="评论数">
-                            <span>{{ props.row.articleCommentCount }}</span>
+                            <span>{{ props.row.artCommentCount }}</span>
                         </el-form-item>
-                        <el-form-item label="点赞数">
-                            <span>{{ props.row.articleLikeCount }}</span>
-                        </el-form-item>
-                        <el-form-item label="分类">
-                            <span>{{ props.row.category }}</span>
+                        <el-form-item label="浏览量">
+                            <span>{{ props.row.artCommentCount }}</span>
                         </el-form-item>
                         <el-form-item label="标签">
                             <el-tag v-for='i in props.row.tags' size='small' type="success" style="margin-right: 10px">{{JOKE_TAGS[i]}}</el-tag>
@@ -63,11 +29,11 @@
                 </el-table-column>
                 <el-table-column property="title" label="标题">
                 </el-table-column>
-                <el-table-column property="jokeUserNick" label="段子作者">
+                <el-table-column property="jokeUserNick" label="作者">
                 </el-table-column>
                 <el-table-column property="postTime" label="发布时间" sortable>
                 </el-table-column>
-                <el-table-column property="jokeId" label="段子ID">
+                <el-table-column property="artId" label="文章ID">
                 </el-table-column>
                 <el-table-column property="city" label="操作">
                     <template slot-scope="scope">
@@ -101,9 +67,9 @@
 import headTop from '@/components/HeadTop'
 import comment from '@/components/comment'
 import { mapState } from 'vuex'
-
 const JOKE_CATEGORY = { "0": "网络", "1": "自创", "2": "听说" };
 const JOKE_TAGS = { "0": "经典", "1": "荤笑话", "2": "精分", "3": "脑残", "4": "冷笑话" };
+
 export default {
     components: {
         headTop,
@@ -130,46 +96,6 @@ export default {
             dialogCommentVisible: false,
             selectTable: {},
             selectIndex: -1,
-            options1: [{
-                value: '-1',
-                label: '全部'
-            }, {
-                value: '0',
-                label: '网络'
-            }, {
-                value: '1',
-                label: '自创'
-            }, {
-                value: '2',
-                label: '听说'
-            }],
-            options2: [{
-                value: '-1',
-                label: '全部'
-            }, {
-                value: '0',
-                label: '经典'
-            }, {
-                value: '1',
-                label: '荤笑话'
-            }, {
-                value: '2',
-                label: '精分'
-
-            }, {
-                value: '3',
-                label: '脑残'
-            }, {
-                value: '4',
-                label: '冷笑话'
-            }],
-            value: '',
-            keyWords: '',
-            ruleForm: {
-                keySelect: '1',
-                selectType: '-1',
-                selectTag: '-1',
-            },
         }
     },
     methods: {
@@ -182,7 +108,7 @@ export default {
             this.getJokes()
         },
         getJokes() {
-            this.$axios.get(`/joke/jokelist`, {
+            this.$axios.get(`/essay/essaylist`, {
                     params: {
                         page: this.page,
                         row: this.row
@@ -195,14 +121,13 @@ export default {
                     this.tableData = [];
                     data.forEach(item => {
                         const tableData = {};
-                        tableData.articleCommentCount = item.articleCommentCount;
+                        tableData.artCommentCount = item.artCommentCount;
                         tableData.articleLikeCount = item.articleLikeCount;
                         tableData.content = item.content;
                         tableData.contentHtml = item.contentHtml;
                         tableData.coverImg = item.coverImg;
-                        tableData.jokeId = item.jokeId;
-                        tableData.jokeUserIcon = item.jokeUserIcon;
-                        tableData.jokeUserId = item.jokeUserId;
+                        tableData.artId = item.artId;
+                        tableData.artUserId = item.artUserId;
                         tableData.jokeUserNick = item.jokeUserNick;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
@@ -251,75 +176,6 @@ export default {
                         this.openSuccess('恭喜，删除成功!');
                         this.tableData.splice(index, 1);
                     }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-
-        resetForm() {
-            this.ruleForm = {
-                keySelect: '1',
-                selectType: '-1',
-                selectTag: '-1',
-            };
-            this.keyWords = '';
-        },
-
-        dealSearchJokes() {
-            let params = {
-                page: this.page,
-                row: this.row,
-                category: encodeURI(this.ruleForm.selectType),
-                tags: encodeURI(this.ruleForm.selectTag)
-            };
-            if (this.ruleForm.keySelect === "1") {
-                params.key = encodeURI(this.keyWords);
-            } else if (this.ruleForm.keySelect === "2") {
-                params.jokeId = encodeURI(this.keyWords);
-            } else if (this.ruleForm.keySelect === "3") {
-                params.jokeUserId = encodeURI(this.keyWords);
-            }
-            this.$axios.get(`/joke/jokelist/search`, {
-                    params
-                })
-                .then((response) => {
-                    const joker = response.data;
-                    if (joker.code === 200) {
-                        const data = joker.data;
-                        this.count = joker.total;
-                        this.tableData = [];
-                        data.forEach(item => {
-                            const tableData = {};
-                            tableData.articleCommentCount = item.articleCommentCount;
-                            tableData.articleLikeCount = item.articleLikeCount;
-                            tableData.content = item.content;
-                            tableData.contentHtml = item.contentHtml;
-                            tableData.coverImg = item.coverImg;
-                            tableData.jokeId = item.jokeId;
-                            tableData.jokeUserIcon = item.jokeUserIcon;
-                            tableData.jokeUserId = item.jokeUserId;
-                            tableData.jokeUserNick = item.jokeUserNick;
-                            tableData.postTime = item.postTime;
-                            tableData.title = item.title;
-                            if (item.category) {
-                                tableData.category = JOKE_CATEGORY[item.category];
-                            } else {
-                                tableData.category = JOKE_CATEGORY['0'];
-                            }
-                            if (item.tags) {
-                                tableData.tags = JSON.parse(item.tags);
-                            } else {
-                                tableData.tags = ['0'];
-                            }
-
-                            this.tableData.push(tableData);
-                        })
-                        window.scrollTo(0, 0);
-                    } else {
-                        this.openToast(joker.msg);
-                    }
-
                 })
                 .catch((error) => {
                     console.log(error);
