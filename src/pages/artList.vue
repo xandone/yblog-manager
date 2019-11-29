@@ -54,11 +54,11 @@
                 <span>确定删除《{{selectTable.title}}》这篇文章吗？</span>
                 <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteJoke(selectIndex,selectTable.jokeId)">确 定</el-button>
+                <el-button type="primary" @click="deleteJoke(selectIndex,selectTable.artId)">确 定</el-button>
                 </span>
             </el-dialog>
             <el-dialog title="评论列表" :visible.sync="dialogCommentVisible" width="60%">
-                <comment :jokeId="selectTable.jokeId" :isShowComment='dialogCommentVisible'></comment>
+                <comment :artId="selectTable.artId" :isShowComment='dialogCommentVisible'></comment>
             </el-dialog>
         </div>
     </div>
@@ -67,8 +67,7 @@
 import headTop from '@/components/HeadTop'
 import comment from '@/components/comment'
 import { mapState } from 'vuex'
-const JOKE_CATEGORY = { "0": "网络", "1": "自创", "2": "听说" };
-const JOKE_TAGS = { "0": "经典", "1": "荤笑话", "2": "精分", "3": "脑残", "4": "冷笑话" };
+const JOKE_TAGS = { "0": "编程", "1": "Android", "2": "前端", "3": "Java", "4": "设计模式" };
 
 export default {
     components: {
@@ -132,11 +131,6 @@ export default {
                         tableData.jokeUserNick = item.jokeUserNick;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
-                        if (item.category) {
-                            tableData.category = JOKE_CATEGORY[item.category];
-                        } else {
-                            tableData.category = JOKE_CATEGORY['0'];
-                        }
                         if (item.tags) {
                             tableData.tags = JSON.parse(item.tags);
                         } else {
@@ -165,10 +159,10 @@ export default {
             this.selectTable = row;
             this.selectIndex = index;
         },
-        deleteJoke(index, jokeId) {
+        deleteJoke(index, artId) {
             this.dialogVisible = false
             this.$axios.post(`/admin/joke/delete`, {
-                    jokeId: jokeId,
+                    artId: artId,
                     adminId: this.adminId
                 })
                 .then((response) => {

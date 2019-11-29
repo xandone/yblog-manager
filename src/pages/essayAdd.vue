@@ -54,6 +54,16 @@ export default {
         getEtText() {
             return this.editorText;
         },
+        getImgSrc(htmlstr) {
+            var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;
+            var imgsrcArr = [];
+            var tem = [];
+            while (tem = reg.exec(htmlstr)) {
+                imgsrcArr.push(tem[2]);
+                console.log("item1111kkk=" + tem[2]);
+            }
+            return JSON.stringify(imgsrcArr);
+        },
         uploadImg() {
             this.upload_imgs();
         },
@@ -64,7 +74,7 @@ export default {
                     content: this.getEtText(),
                     contentHtml: this.getEtHtml(),
                     type: 1,
-                    coverImg: "",
+                    coverImg: this.getImgSrc(this.getEtHtml()),
                 })
                 .then((response) => {
                     const result = response.data;

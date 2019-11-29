@@ -25,11 +25,12 @@
 export default {
     props: {
         isShowComment: false,
-        jokeId: { type: String },
+        artId: { type: String },
     },
     computed: {
         comments() {
             if (this.isShowComment) {
+                console.log("i111d="+this.artId);
                 this.getJokeComments();
             }
         }
@@ -52,11 +53,11 @@ export default {
             this.page = val;
         },
         getJokeComments() {
-            this.$axios.get(`/joke/comment/list`, {
+            this.$axios.get(`/comment/list`, {
                     params: {
                         page: this.page,
                         row: this.row,
-                        jokeId: this.jokeId
+                        jokeId: this.artId
                     }
                 })
                 .then((response) => {
@@ -72,7 +73,7 @@ export default {
                         tableData.commentId = item.commentId;
                         tableData.commentNick = item.commentNick;
                         tableData.commentUserId = item.commentUserId;
-                        tableData.jokeId = item.jokeId;
+                        tableData.artId = item.artId;
 
                         this.commentData.push(tableData);
                     })
