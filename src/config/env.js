@@ -1,4 +1,5 @@
-let baseUrl = '//localhost:8081/yblog';
+let baseUrl = '//localhost/yblog/';
+let ART_DETAILS_URL = 'http://localhost/artDetails/';
 
 let baseImgPath = '/img/';
 
@@ -7,6 +8,7 @@ const USER_INFO_KEY = 'user_info';
 
 export {
     baseUrl,
+    ART_DETAILS_URL,
     baseImgPath,
     TOP_BAR_INDEX_KEY,
     USER_INFO_KEY

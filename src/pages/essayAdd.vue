@@ -157,7 +157,7 @@ export default {
         get_qiniu() {
             var that = this;
             this.$axios
-                .get('http://localhost:8081/yblog/qiniu/getToken')
+                .get('http://localhost/yblog/qiniu/getToken')
                 .then((result) => {
                     that.qiniu_token = result.data.msg;
                     if (that.editor != '') {

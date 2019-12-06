@@ -21,7 +21,7 @@
                             <el-image @click='showImg(props.$index,props.row)' style="width: 120px; height: 120px; margin-top:10px;" class="avatar" v-if="props.row.coverImg" :src="props.row.coverImg"></el-image>
                         </el-form-item>
                         <el-form-item label="文章地址">
-                            <el-link href="http://www.baidu.com" target='_blank' type="primary">{{ props.row.title }}</el-link>
+                            <el-link :href="props.row.artUrl" target='_blank' type="primary">{{ props.row.title }}</el-link>
                         </el-form-item>
                     </el-form>
                 </el-table-column>
@@ -66,6 +66,7 @@
 <script>
 import headTop from '@/components/HeadTop'
 import comment from '@/components/comment'
+import { ART_DETAILS_URL } from '@/config/env.js'
 import { mapState } from 'vuex'
 const JOKE_TAGS = { "0": "编程", "1": "Android", "2": "前端", "3": "Java", "4": "设计模式" };
 
@@ -131,6 +132,8 @@ export default {
                         tableData.jokeUserNick = item.jokeUserNick;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
+                        tableData.artUrl = ART_DETAILS_URL + item.artId;
+                        console.log(tableData.artUrl);
                         if (item.tags) {
                             tableData.tags = JSON.parse(item.tags);
                         } else {

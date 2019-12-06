@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import login from '../pages/login.vue'
+import manager from '../pages/manager.vue'
 import artList from '../pages/artList.vue'
 import artAdd from '../pages/artAdd.vue'
 import essayList from '../pages/essayList.vue'
@@ -9,10 +11,19 @@ import essayAdd from '../pages/essayAdd.vue'
 Vue.use(VueRouter)
 
 const routes = [{
+    path: '/login',
+    name: 'login',
+    component: login
+}, {
     path: '/',
     name: 'home',
     component: Home,
     children: [{
+        path: '/manager',
+        name: 'manager',
+        component: manager,
+        meta: []
+    }, {
         path: '/artList',
         name: 'artList',
         component: artList,
