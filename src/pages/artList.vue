@@ -15,7 +15,7 @@
                             <span>{{ props.row.artBrowseCount }}</span>
                         </el-form-item>
                         <el-form-item label="标签">
-                            <el-tag v-for='i in props.row.tags' size='small' type="success" style="margin-right: 10px">{{JOKE_TAGS[i]}}</el-tag>
+                            <el-tag v-for='i in props.row.tags' size='small' type="success" style="margin-right: 10px">{{props.row.typeName}}</el-tag>
                         </el-form-item>
                         <el-form-item label="首页图片">
                             <el-image @click='showImg(props.$index,props.row)' style="width: 120px; height: 120px; margin-top:10px;" class="avatar" v-if="props.row.coverImg" :src="props.row.coverImg"></el-image>
@@ -132,6 +132,7 @@ export default {
                         tableData.jokeUserNick = item.jokeUserNick;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
+                        tableData.typeName = item.typeName;
                         tableData.artUrl = ART_DETAILS_URL + item.artId;
                         console.log(tableData.artUrl);
                         if (item.tags) {

@@ -60,7 +60,6 @@ export default {
             var tem = [];
             while (tem = reg.exec(htmlstr)) {
                 imgsrcArr.push(tem[2]);
-                console.log("item1111kkk=" + tem[2]);
             }
             return JSON.stringify(imgsrcArr);
         },

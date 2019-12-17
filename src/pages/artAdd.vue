@@ -6,7 +6,35 @@
                 </el-input>
             </div>
             <div id="bar"></div>
-            <div id="divide-edit-line"></div>
+            <div class="divide-edit-line"></div>
+            <div class="select-type">
+                <span>请选择类别:</span>
+                <div>
+                    <el-radio-group v-model="radioType" border size="small">
+                        <el-radio-button label="0">编程</el-radio-button>
+                        <el-radio-button label="1">Android</el-radio-button>
+                        <el-radio-button label="2">Java</el-radio-button>
+                        <el-radio-button label="3">前端</el-radio-button>
+                        <el-radio-button label="4">设计模式</el-radio-button>
+                        <el-radio-button label="5">算法</el-radio-button>
+                        <div style="margin-top: 10px">
+                            <el-radio-button label="6">Python</el-radio-button>
+                            <el-radio-button label="7">Canvas</el-radio-button>
+                            <el-radio-button label="8">Game</el-radio-button>
+                        </div>
+                    </el-radio-group>
+                </div>
+            </div>
+            <div class="cover-img">
+                <span>COVER图片:</span>
+                <el-upload action="http://up-z2.qiniup.com" :limit="piclimit" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handleUpSuccess" :data="qn">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="coverImgUrl" alt="">
+                </el-dialog>
+            </div>
+            <div class="divide-edit-line"></div>
             <div id="editor"></div>
         </div>
         <div class="preview">
@@ -34,6 +62,14 @@ export default {
             editorText: '',
             editor: '',
             qiniu_token: '',
+            qn: {
+                token: "",
+                key: "0201"
+            },
+            piclimit: 1,
+            coverImgUrl: '',
+            dialogVisible: false,
+            radioType: "0",
         }
     },
     mounted() {
@@ -60,7 +96,6 @@ export default {
             var tem = [];
             while (tem = reg.exec(htmlstr)) {
                 imgsrcArr.push(tem[2]);
-                console.log("item1111kkk=" + tem[2]);
             }
             return imgsrcArr[0];
         },
@@ -73,8 +108,8 @@ export default {
                     artUserId: "1",
                     content: this.getEtText(),
                     contentHtml: this.getEtHtml(),
-                    type: 1,
-                    coverImg: this.getFirstImgSrc(this.getEtHtml()),
+                    type: Number(this.radioType),
+                    coverImg: this.coverImgUrl,
                 })
                 .then((response) => {
                     const result = response.data;
@@ -112,7 +147,7 @@ export default {
                 'image', // 插入图片
                 'table', // 表格
                 // 'video', // 插入视频
-                'code',  // 插入代码
+                'code', // 插入代码
                 'undo', // 撤销
                 'redo' // 重复
             ]
@@ -123,7 +158,6 @@ export default {
             // 这个地方是显示上传本地图片的tab
             this.editor.customConfig.uploadFileName = 'file'
             // 这里显示的是用户标识token
-            console.log("token===" + this.qiniu_token);
             this.editor.customConfig.uploadImgParams = { token: this.qiniu_token }
             var that = this;
             this.editor.customConfig.uploadImgHooks = {
@@ -145,7 +179,7 @@ export default {
                 },
                 customInsert: function(insertImg, result, editor) {
                     // 这个hash就是我前面说的key值啦
-                    var url = "http://q1kdflm5d.bkt.clouddn.com/" + result.hash;
+                    var url = "http://www.xandone.pub/" + result.hash;
                     insertImg(url)
                     console.log('customInsert', insertImg, result, editor);
                     // result 必须是一个 JSON 格式字符串！！！否则报错
@@ -160,6 +194,7 @@ export default {
                 .get('http://xandone.pub/yblog/qiniu/getToken')
                 .then((result) => {
                     that.qiniu_token = result.data.msg;
+                    that.qn.token = that.qiniu_token;
                     if (that.editor != '') {
                         // that.editor.destory();
                     }
@@ -169,6 +204,19 @@ export default {
                     console.log(error);
                 });
         },
+
+        handleRemove() {
+            this.coverImgUrl = "";
+        },
+
+        handleUpSuccess(response) {
+            this.coverImgUrl = "http://www.xandone.pub/" + response.key;
+            console.log(this.coverImgUrl);
+        },
+        handlePictureCardPreview(file) {
+            this.dialogVisible = true;
+        },
+
         openToast(msg) {
             this.$notify.error({
                 title: '错误',
@@ -210,9 +258,34 @@ export default {
 
 #bar {}
 
-#divide-edit-line {
+.divide-edit-line {
     height: 1px;
     background-color: #ddd;
+}
+
+.select-type {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    span {
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+}
+
+.cover-img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    span {
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
 }
 
 #editor {
