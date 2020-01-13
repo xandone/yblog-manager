@@ -23,6 +23,7 @@
 </template>
 <script>
 import E from 'wangeditor'
+import { baseUrl } from '@/config/env'
 
 export default {
     components: {},
@@ -52,7 +53,7 @@ export default {
             return this.editorHtml;
         },
         getEtText() {
-            return this.editorText;
+            return this.editorText.replace(/&nbsp;/gi, '');
         },
         getImgSrc(htmlstr) {
             var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;
@@ -144,7 +145,7 @@ export default {
                 },
                 customInsert: function(insertImg, result, editor) {
                     // 这个hash就是我前面说的key值啦
-                    var url = "http://q1kdflm5d.bkt.clouddn.com/" + result.hash;
+                    var url = "http://www.xandone.pub/" + result.hash;
                     insertImg(url)
                     console.log('customInsert', insertImg, result, editor);
                     // result 必须是一个 JSON 格式字符串！！！否则报错
@@ -156,7 +157,7 @@ export default {
         get_qiniu() {
             var that = this;
             this.$axios
-                .get('http://localhost/yblog/qiniu/getToken')
+                .get(baseUrl + '/qiniu/getToken')
                 .then((result) => {
                     that.qiniu_token = result.data.msg;
                     if (that.editor != '') {

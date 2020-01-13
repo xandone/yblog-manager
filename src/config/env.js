@@ -1,4 +1,5 @@
-let baseUrl = '//localhost/yblog/';
+let baseUrl = '//xandone.pub/yblog/';
+// let baseUrl = '//localhost/yblog/';
 let ART_DETAILS_URL = 'http://localhost/artDetails/';
 
 let baseImgPath = '/img/';

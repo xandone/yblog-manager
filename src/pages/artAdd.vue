@@ -27,7 +27,7 @@
             </div>
             <div class="cover-img">
                 <span>COVER图片:</span>
-                <el-upload action="http://up-z2.qiniup.com" :limit="piclimit" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handleUpSuccess" :data="qn">
+                <el-upload action="http://up-z2.qiniup.com" :limit="piclimit" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handleUpSuccess" :data="qnParam" :before-upload="handleBeforeUp">
                     <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
@@ -51,6 +51,7 @@
 </template>
 <script>
 import E from 'wangeditor'
+import { baseUrl } from '@/config/env'
 
 export default {
     components: {},
@@ -62,9 +63,9 @@ export default {
             editorText: '',
             editor: '',
             qiniu_token: '',
-            qn: {
+            qnParam: {
                 token: "",
-                key: "0201"
+                key: ""
             },
             piclimit: 1,
             coverImgUrl: '',
@@ -88,7 +89,7 @@ export default {
             return this.editorHtml;
         },
         getEtText() {
-            return this.editorText;
+            return this.editorText.replace(/&nbsp;/gi, '');
         },
         getFirstImgSrc(htmlstr) {
             var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;
@@ -191,10 +192,10 @@ export default {
         get_qiniu() {
             var that = this;
             this.$axios
-                .get('http://xandone.pub/yblog/qiniu/getToken')
+                .get(baseUrl + '/qiniu/getToken')
                 .then((result) => {
                     that.qiniu_token = result.data.msg;
-                    that.qn.token = that.qiniu_token;
+                    that.qnParam.token = that.qiniu_token;
                     if (that.editor != '') {
                         // that.editor.destory();
                     }
@@ -215,6 +216,11 @@ export default {
         },
         handlePictureCardPreview(file) {
             this.dialogVisible = true;
+        },
+
+        handleBeforeUp(file) {
+            this.qnParam.key = String(new Date().getTime());
+            console.log(this.qnParam.key);
         },
 
         openToast(msg) {
