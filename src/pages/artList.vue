@@ -38,6 +38,7 @@
                 <el-table-column property="city" label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click='dealComment(scope.$index,scope.row)'>评论</el-button>
+                        <el-button size="mini" @click='dealEdit(scope.$index,scope.row)' type='warning'>编辑</el-button>
                         <el-button size="mini" @click='dealDelete(scope.$index,scope.row)' type="danger">
                             删除</el-button>
                     </template>
@@ -133,8 +134,8 @@ export default {
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
                         tableData.typeName = item.typeName;
+                        tableData.type = item.type;
                         tableData.artUrl = ART_DETAILS_URL + item.artId;
-                        console.log(tableData.artUrl);
                         if (item.tags) {
                             tableData.tags = JSON.parse(item.tags);
                         } else {
@@ -157,6 +158,17 @@ export default {
             this.dialogCommentVisible = true;
             this.selectTable = row;
             this.selectIndex = index;
+        },
+        dealEdit(index, row) {
+            this.selectTable = row;
+            this.selectIndex = index;
+            this.$router.push({
+                path: '/artAdd',
+                name: 'artAdd',
+                params: {
+                    selectBean: JSON.stringify(row)
+                }
+            });
         },
         dealDelete(index, row) {
             this.dialogVisible = true;

@@ -11,7 +11,7 @@
         </div>
         <div class="preview">
             <span class="title-tip">{{title}}</span>
-            <el-button class="commit-btn" @click="addJokes" type="primary" icon="el-icon-check" size="mini">保存</el-button>
+            <el-button class="commit-btn" @click="addEssay" type="primary" icon="el-icon-check" size="mini">保存</el-button>
             <div class="author-tip">
                 <span >xandone</span>
                 <span >2019-11-23</span>
@@ -30,25 +30,46 @@ export default {
     computed: {},
     data() {
         return {
+            essayId: '',
             title: '',
             editorHtml: '',
             editorText: '',
             editor: '',
             qiniu_token: '',
+            selectBean: null,
         }
     },
     mounted() {
-        // this.editor = new E('#bar', '#editor')
-        // this.editor.customConfig.onchange = (html) => {
-        //     this.editorHtml = html
-        //     this.editorText = editor.txt.text();
-        // }
-        // this.editor.customConfig.uploadImgServer = '/upload'
-        // this.editor.create();
+        this.selectBean = this.$route.params.selectBean;
+        if (typeof this.$route.params.selectBean !== 'undefined') {
+            this.selectBean = JSON.parse(this.$route.params.selectBean);
+        }
         // 获取七牛
+        this.upload_imgs();
         this.get_qiniu();
+        this.fillData();
+    },
+    watch: {
+        '$route': 'getParams'
     },
     methods: {
+        getParams() {
+            if (this.$route.name === 'essayAdd' && typeof this.$route.params.selectBean !== 'undefined') {
+                this.selectBean = JSON.parse(this.$route.params.selectBean);
+                this.fillData();
+            }
+        },
+        fillData() {
+            if (typeof this.selectBean !== 'undefined' && this.selectBean !== null) {
+                this.essayId = this.selectBean.essayId;
+                this.title = this.selectBean.title;
+                this.editorHtml = this.selectBean.contentHtml;
+                this.editorText = this.selectBean.content;
+                this.title = this.selectBean.title;
+                this.coverImgUrl = this.selectBean.coverImg;
+                this.editor.txt.html(this.selectBean.contentHtml)
+            }
+        },
         getEtHtml() {
             return this.editorHtml;
         },
@@ -67,8 +88,9 @@ export default {
         uploadImg() {
             this.upload_imgs();
         },
-        addJokes() {
+        addEssay() {
             this.$axios.post(`/essay/add`, {
+                    essayId: this.essayId,
                     title: this.title,
                     artUserId: "1",
                     content: this.getEtText(),
@@ -163,7 +185,7 @@ export default {
                     if (that.editor != '') {
                         // that.editor.destory();
                     }
-                    that.upload_imgs();
+                    // that.upload_imgs();
                 })
                 .catch((error) => {
                     console.log(error);

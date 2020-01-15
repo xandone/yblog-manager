@@ -6,13 +6,13 @@
                 <el-table-column type='expand'>
                     <el-form slot-scope="props" label-position="left" inline class="demo-table-expand">
                         <el-form-item label="作者ID">
-                            <span>{{ props.row.artUserId }}</span>
+                            <span>{{ props.row.essayUserId }}</span>
                         </el-form-item>
                         <el-form-item label="评论数">
-                            <span>{{ props.row.artCommentCount }}</span>
+                            <span>{{ props.row.essayCommentCount }}</span>
                         </el-form-item>
                         <el-form-item label="浏览量">
-                            <span>{{ props.row.artCommentCount }}</span>
+                            <span>{{ props.row.essayBrowseCount }}</span>
                         </el-form-item>
                         <el-form-item label="标签">
                             <el-tag v-for='i in props.row.tags' size='small' type="success" style="margin-right: 10px">{{JOKE_TAGS[i]}}</el-tag>
@@ -33,11 +33,12 @@
                 </el-table-column>
                 <el-table-column property="postTime" label="发布时间" sortable>
                 </el-table-column>
-                <el-table-column property="artId" label="文章ID">
+                <el-table-column property="essayId" label="文章ID">
                 </el-table-column>
                 <el-table-column property="city" label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click='dealComment(scope.$index,scope.row)'>评论</el-button>
+                        <el-button size="mini" @click='dealEdit(scope.$index,scope.row)' type='warning'>编辑</el-button>
                         <el-button size="mini" @click='dealDelete(scope.$index,scope.row)' type="danger">
                             删除</el-button>
                     </template>
@@ -121,14 +122,13 @@ export default {
                     this.tableData = [];
                     data.forEach(item => {
                         const tableData = {};
-                        tableData.artCommentCount = item.artCommentCount;
-                        tableData.articleLikeCount = item.articleLikeCount;
+                        tableData.essayCommentCount = item.essayCommentCount;
+                        tableData.essayBrowseCount = item.essayBrowseCount;
                         tableData.content = item.content;
                         tableData.contentHtml = item.contentHtml;
-                        tableData.coverImg = item.coverImg;
-                        tableData.artId = item.artId;
-                        tableData.artUserId = item.artUserId;
-                        tableData.jokeUserNick = item.jokeUserNick;
+                        tableData.coverImg = JSON.parse(item.coverImg)[0];
+                        tableData.essayId = item.essayId;
+                        tableData.essayUserId = item.essayUserId;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
                         if (item.category) {
@@ -158,6 +158,17 @@ export default {
             this.dialogCommentVisible = true;
             this.selectTable = row;
             this.selectIndex = index;
+        },
+        dealEdit(index, row) {
+            this.selectTable = row;
+            this.selectIndex = index;
+            this.$router.push({
+                path: '/essayAdd',
+                name: 'essayAdd',
+                params: {
+                    selectBean: JSON.stringify(row)
+                }
+            });
         },
         dealDelete(index, row) {
             this.dialogVisible = true;
