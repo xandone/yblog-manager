@@ -29,8 +29,6 @@
                 </el-table-column>
                 <el-table-column property="title" label="标题">
                 </el-table-column>
-                <el-table-column property="jokeUserNick" label="作者">
-                </el-table-column>
                 <el-table-column property="postTime" label="发布时间" sortable>
                 </el-table-column>
                 <el-table-column property="essayId" label="文章ID">

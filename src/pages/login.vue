@@ -2,8 +2,8 @@
     <div class="fillcontain login-bg">
         <div class="logo-root">
             <img class="dog-logo" src="@/assets/dog.jpg" alt="">
-            <div><span style="font-size: 15px;">WCDOG</span></div>
-            <div><span style="font-weight: bold;color: #666;font-size: 18px;" >管理系统</span></div>
+            <div><span style="color: #fff; font-weight: bold;font-size: 20px;">y-blog</span></div>
+            <div><span style="color: #fff; font-size: 14px;" >管理系统</span></div>
         </div>
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
             <el-form-item label="用户名" prop="pass">
@@ -22,6 +22,7 @@
 import { setStore } from '@/utils/utils.js'
 import { USER_INFO_KEY } from '@/config/env'
 import { mapState } from 'vuex'
+import md5 from 'js-md5';
 export default {
     computed: {
         ...mapState([
@@ -77,9 +78,10 @@ export default {
         },
 
         login() {
+            let md5pass = md5(this.ruleForm.checkPass);
             this.$axios.post(`/admin/login`, {
                     name: this.ruleForm.pass,
-                    psw: this.ruleForm.checkPass
+                    psw: md5pass
                 })
                 .then((response) => {
                     const user = response.data;
@@ -108,7 +110,7 @@ export default {
 <style>
 .login-bg {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     background-color: #324057;
     background: url('../assets/bg.jpg');
@@ -119,7 +121,7 @@ export default {
     height: 210px;
     padding: 25px;
     text-align: center;
-    background-color: #fff;
+    /*background-color: #fff;*/
 
 }
 
@@ -128,9 +130,11 @@ export default {
 }
 
 .logo-root {
+    margin-left: 50px;
     height: 210px;
     padding: 25px;
-    background-color: #fff;
+    /*background-color: #fff;*/
+    /*opacity: 0.2;*/
 }
 
 .dog-logo {

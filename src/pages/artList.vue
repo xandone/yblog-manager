@@ -29,8 +29,6 @@
                 </el-table-column>
                 <el-table-column property="title" label="标题">
                 </el-table-column>
-                <el-table-column property="jokeUserNick" label="作者">
-                </el-table-column>
                 <el-table-column property="postTime" label="发布时间" sortable>
                 </el-table-column>
                 <el-table-column property="artId" label="文章ID">
@@ -130,7 +128,6 @@ export default {
                         tableData.coverImg = item.coverImg;
                         tableData.artId = item.artId;
                         tableData.artUserId = item.artUserId;
-                        tableData.jokeUserNick = item.jokeUserNick;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
                         tableData.typeName = item.typeName;
