@@ -39,6 +39,9 @@
                         <el-button size="mini" @click='dealEdit(scope.$index,scope.row)' type='warning'>编辑</el-button>
                         <el-button size="mini" @click='dealDelete(scope.$index,scope.row)' type="danger">
                             删除</el-button>
+                        <el-switch @change="changeTopping(scope.row)" v-model="tableData[scope.$index].isTopping" active-value="1" inactive-value="0" active-text="置顶" style="margin-left: 10px;">
+                        </el-switch>
+                        </el-switch>
                     </template>
                 </el-table-column>
             </el-table>
@@ -53,7 +56,7 @@
                 <span>确定删除《{{selectTable.title}}》这个段子吗？</span>
                 <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteJoke(selectIndex,selectTable.jokeId)">确 定</el-button>
+                <el-button type="primary" @click="deleteEssay(selectIndex,selectTable.jokeId)">确 定</el-button>
                 </span>
             </el-dialog>
             <el-dialog title="评论列表" :visible.sync="dialogCommentVisible" width="60%">
@@ -129,6 +132,7 @@ export default {
                         tableData.essayUserId = item.essayUserId;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
+                        tableData.isTopping = item.isTopping;
                         if (item.category) {
                             tableData.category = JOKE_CATEGORY[item.category];
                         } else {
@@ -173,7 +177,7 @@ export default {
             this.selectTable = row;
             this.selectIndex = index;
         },
-        deleteJoke(index, jokeId) {
+        deleteEssay(index, jokeId) {
             this.dialogVisible = false
             this.$axios.post(`/admin/joke/delete`, {
                     jokeId: jokeId,
@@ -189,6 +193,30 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+        changeTopping(bean) {
+            let essayBean = JSON.stringify({
+                banned: bean.isTopping,
+                userId: bean.essayId
+            });
+            let params = this.$qs.stringify({
+                adminId: "250",
+                jsonEssay: essayBean
+            });
+            this.dialogVisible = false
+            this.$axios.post(`/admin/user/update`, params)
+                .then((response) => {
+                    const result = response.data;
+                    if (result && result.code === 200) {
+                        this.openSuccess('恭喜，修改成功!');
+                    } else if (result.msg) {
+                        this.$message.error(result.msg);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+
         },
         openToast(msg) {
             this.$notify.error({
