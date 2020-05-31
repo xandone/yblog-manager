@@ -82,7 +82,7 @@ export default {
         }
         // console.log(this.selectBean);
         // 获取七牛
-        this.upload_imgs();
+        // this.upload_imgs();
         this.get_qiniu();
         this.fillData();
     },
@@ -221,9 +221,9 @@ export default {
                     that.qiniu_token = result.data.msg;
                     that.qnParam.token = that.qiniu_token;
                     if (that.editor != '') {
-                        // that.editor.destory();
+                        that.editor.destory();
                     }
-                    // that.upload_imgs();
+                    that.upload_imgs();
                 })
                 .catch((error) => {
                     console.log(error);

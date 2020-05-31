@@ -27,18 +27,17 @@
                 </el-table-column>
                 <el-table-column type="index">
                 </el-table-column>
-                <el-table-column property="title" label="标题">
+                <el-table-column property="title" label="标题" width="250">
                 </el-table-column>
-                <el-table-column property="postTime" label="发布时间" sortable>
+                <el-table-column property="postTime" label="发布时间" sortable width="200">
                 </el-table-column>
-                <el-table-column property="essayId" label="文章ID">
+                <el-table-column property="essayId" label="文章ID" width="200">
                 </el-table-column>
                 <el-table-column property="city" label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click='dealComment(scope.$index,scope.row)'>评论</el-button>
                         <el-button size="mini" @click='dealEdit(scope.$index,scope.row)' type='warning'>编辑</el-button>
-                        <el-button size="mini" @click='dealDelete(scope.$index,scope.row)' type="danger">
-                            删除</el-button>
+                        <el-button size="mini" @click='dealDelete(scope.$index,scope.row)' type="danger">删除</el-button>
                         <el-switch @change="changeTopping(scope.row)" v-model="tableData[scope.$index].isTopping" active-value="1" inactive-value="0" active-text="置顶" style="margin-left: 10px;">
                         </el-switch>
                         </el-switch>
@@ -98,6 +97,7 @@ export default {
             dialogCommentVisible: false,
             selectTable: {},
             selectIndex: -1,
+            // isTopping: '0'
         }
     },
     methods: {
@@ -132,7 +132,7 @@ export default {
                         tableData.essayUserId = item.essayUserId;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
-                        tableData.isTopping = item.isTopping;
+                        tableData.isTopping = item.isTopping.toString();
                         if (item.category) {
                             tableData.category = JOKE_CATEGORY[item.category];
                         } else {
@@ -196,15 +196,14 @@ export default {
         },
         changeTopping(bean) {
             let essayBean = JSON.stringify({
-                banned: bean.isTopping,
-                userId: bean.essayId
+                isTopping: bean.isTopping,
+                essayId: bean.essayId
             });
             let params = this.$qs.stringify({
                 adminId: "250",
                 jsonEssay: essayBean
             });
-            this.dialogVisible = false
-            this.$axios.post(`/admin/user/update`, params)
+            this.$axios.post(`/essay/setBanner`, params)
                 .then((response) => {
                     const result = response.data;
                     if (result && result.code === 200) {
