@@ -1,21 +1,26 @@
 <template>
-    <div class="fillcontain login-bg">
-        <div class="logo-root">
-            <img class="dog-logo" src="@/assets/dog.jpg" alt="">
-            <div><span style="color: #fff; font-weight: bold;font-size: 20px;">y-blog</span></div>
-            <div><span style="color: #fff; font-size: 14px;" >管理系统</span></div>
+    <div class="fillcontain ">
+        <div class="img-bg">
+            <el-image :fit='cover' src="http://www.xandone.pub/mainimage.jpg" style="width: 100%; height: 100%"></el-image>
         </div>
-        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
-            <el-form-item label="用户名" prop="pass">
-                <el-input v-model="ruleForm.pass" autocomplete="off" placeholder='用户名'></el-input>
-            </el-form-item>
-            <el-form-item label="密　码" prop="checkPass">
-                <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder='密码' show-password></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button class='btn' type="primary" @click="submitForm('ruleForm')">提交</el-button>
-            </el-form-item>
-        </el-form>
+        <div class="fillcontain login-bg">
+            <div class="logo-root">
+                <img class="dog-logo" src="@/assets/dog.jpg" alt="">
+                <div><span style="color: #fff; font-weight: bold;font-size: 20px;">y-blog</span></div>
+                <div><span style="color: #fff; font-size: 14px;" >管理系统</span></div>
+            </div>
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
+                <el-form-item label="用户名" prop="pass">
+                    <el-input v-model="ruleForm.pass" autocomplete="off" placeholder='用户名'></el-input>
+                </el-form-item>
+                <el-form-item label="密　码" prop="checkPass">
+                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder='密码' show-password></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button class='btn' type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
     </div>
 </template>
 <script>
@@ -112,8 +117,7 @@ export default {
     display: flex;
     justify-content: left;
     align-items: center;
-    background-color: #324057;
-    background: url('../assets/bg.jpg');
+    position: absolute;
 }
 
 .demo-ruleForm {
@@ -124,6 +128,13 @@ export default {
     /*background-color: #fff;*/
 
 }
+
+.img-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
 
 .btn {
     width: 100%

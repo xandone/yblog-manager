@@ -17,6 +17,12 @@
                         <el-menu-item index="essayAdd">发布杂文</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
+                  <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-notebook-2"></i>管理员</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="admin">管理员</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
             </el-menu>
         </el-aside>
         <el-main style="padding: 0; overflow: auto;">

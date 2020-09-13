@@ -7,6 +7,7 @@ import artList from '../pages/artList.vue'
 import artAdd from '../pages/artAdd.vue'
 import essayList from '../pages/essayList.vue'
 import essayAdd from '../pages/essayAdd.vue'
+import admin from '../pages/admin.vue'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,11 @@ const routes = [{
         name: 'essayAdd',
         component: essayAdd,
         meta: ['杂文管理', '发布杂文'],
+    }, {
+        path: '/admin',
+        name: 'admin',
+        component: admin,
+        meta: ['管理员', '管理员'],
     }]
 }]
 
