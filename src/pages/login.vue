@@ -6,8 +6,8 @@
         <div class="fillcontain login-bg">
             <div class="logo-root">
                 <img class="dog-logo" src="@/assets/dog.jpg" alt="">
-                <div><span style="color: #fff; font-weight: bold;font-size: 20px;">y-blog</span></div>
-                <div><span style="color: #fff; font-size: 14px;" >管理系统</span></div>
+                <div><span style="color: #fff;font-size: 18px;">xandone博客</span></div>
+                <div><span style="color: #fff; font-size: 16px;" >管理系统</span></div>
             </div>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
                 <el-form-item label="用户名" prop="pass">
@@ -144,8 +144,9 @@ export default {
     margin-left: 50px;
     height: 210px;
     padding: 25px;
-    /*background-color: #fff;*/
-    /*opacity: 0.2;*/
+    font-family: '宋体'
+        /*background-color: #fff;*/
+        /*opacity: 0.2;*/
 }
 
 .dog-logo {

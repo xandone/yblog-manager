@@ -177,10 +177,10 @@ export default {
             this.selectTable = row;
             this.selectIndex = index;
         },
-        deleteEssay(index, jokeId) {
+        deleteEssay(index, essayId) {
             this.dialogVisible = false
             this.$axios.post(`/admin/joke/delete`, {
-                    jokeId: jokeId,
+                    jokeId: essayId,
                     adminId: this.adminId
                 })
                 .then((response) => {
@@ -210,6 +210,8 @@ export default {
                         this.openSuccess('恭喜，修改成功!');
                     } else if (result.msg) {
                         this.$message.error(result.msg);
+                    }else{
+                         this.$message.error('操作失败');
                     }
                 })
                 .catch((error) => {

@@ -1,8 +1,8 @@
 // let baseUrl = '//xandone.pub/yblog/';
-let baseUrl = '//localhost/yblog/';
-let ART_DETAILS_URL = 'http://localhost/artDetails/';
+const baseUrl = '//localhost/yblog/';
+const ART_DETAILS_URL = baseUrl+'/artDetails/';
 
-let baseImgPath = '/img/';
+const baseImgPath = '/img/';
 
 const TOP_BAR_INDEX_KEY = 'top_bar_index_key';
 const USER_INFO_KEY = 'user_info';
