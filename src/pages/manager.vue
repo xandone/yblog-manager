@@ -3,19 +3,35 @@
         <headTop></headTop>
         <header class="title">数据统计</header>
         <div class="data-tag-root">
-            <el-tag effect="dark" color="#18A689" class="data-el-tag" style="height: 50px;">
-                <div class="data-tag"><span>{{typeBeans[0].count}}</span><span>编程</span></div>
+            <el-tag effect="dark" class="d-el-tag" color="#87DE75" style="height: 70px;">
+                <div class="data-el-tag">
+                    <div class="data-tag">
+                        <span>{{typeBeans[0].count}}</span><span>编程</span>
+                    </div>
+                    <img class="data-tag-icon" src="../assets/code_ic.png" alt="">
+                 </div>
             </el-tag>
-            <el-tag effect="dark" color="#99CC00" class="data-el-tag" style="height: 50px;">
-                <div class="data-tag"><span>{{typeBeans[1].count}}</span><span>杂文</span></div>
+            <el-tag effect="dark" class="d-el-tag" color="#93B7E3" style="height: 70px;">
+                <div class="data-el-tag">
+                    <div class="data-tag">
+                        <span>{{typeBeans[1].count}}</span><span>杂文</span>
+                    </div>
+                    <img class="data-tag-icon" src="../assets/essay_ic.png" alt="">
+                 </div>
             </el-tag>
-            <el-tag effect="dark" color="#3B5999" class="data-el-tag" style="height: 50px;">
-                <div class="data-tag"><span>{{artStatistical.commentCounts}}</span><span>留言</span></div>
+            <el-tag effect="dark" class="d-el-tag" color="#A5E7F0" style="height: 70px;">
+                <div class="data-el-tag">
+                    <div class="data-tag">
+                        <span>{{artStatistical.commentCounts}}</span><span>留言</span>
+                    </div>
+                    <img class="data-tag-icon" src="../assets/comment_ic.png" alt="">
+                 </div>
             </el-tag>
         </div>
         <div class="chart-root">
-            <v-chart :options="data1" style="width: 60%;height:450px;" />
+            <v-chart :options="data1" style="width: 50%;height:450px;" />
             <v-chart :options="data2" />
+            <v-chart :options="data3" style="width: 50%;height:450px;" />
         </div>
     </div>
 </template>
@@ -44,6 +60,7 @@ export default {
         return {
             data1: {},
             data2: {},
+            data3: {},
             artStatistical: {},
             typeBeans: [],
             artTypeBeans: []
@@ -144,6 +161,7 @@ export default {
                         }
                     }]
                 }
+
         },
         getFlowData() {
             this.$axios.get(`/admin/artInfo`, {
@@ -160,7 +178,7 @@ export default {
                         this.artTypeBeans = this.artStatistical.artTypeBeans;
                         this.artTypeBeans.shift();
                         this.initData(this.artTypeBeans);
-                    }else{
+                    } else {
                         openToast(response.data.msg);
                     }
                 })
@@ -178,11 +196,12 @@ export default {
     }
 }
 </script>
-<style>
+<style lang="scss">
 .title {
     margin-top: 20px;
-    font-size: 24px;
-    color: #666;
+    font-size: 30px;
+    color: #333;
+    font-weight: bold;
     text-align: center;
 }
 
@@ -191,24 +210,37 @@ export default {
     text-align: left;
 }
 
-.data-el-tag {
-    width: 100px;
+.d-el-tag {
     margin-left: 10px;
 }
 
-.data-tag {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
+.data-el-tag {
+    width: 150px;
+    position: relative;
+
+    .data-tag {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 70px;
+    }
+
+    .data-tag span {
+        color: white;
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 200;
+    }
+
+    .data-tag-icon {
+        width: 28px;
+        height: 28px;
+        position: absolute;
+        top: 4px;
+        right: 0;
+    }
 }
 
-.data-tag span {
-    color: white;
-    font-size: 15px;
-    line-height: 20px;
-}
 
 .chart-root {
     /*display: flex;*/
