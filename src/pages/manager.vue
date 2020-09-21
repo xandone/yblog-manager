@@ -29,19 +29,19 @@
             </el-tag>
         </div>
         <div class="chart-root">
-            <v-chart :options="data1" style="width: 50%;height:450px;" />
-            <v-chart :options="data2" />
-            <v-chart :options="data3" style="width: 50%;height:450px;" />
+            <ve-line :data="data1"></ve-line>
+            <div class="art-chart">
+                <ve-histogram :data="data2" class='code-chart' width="80%"></ve-histogram>
+                <ve-pie :data="data3" class='code-chart' width="80%"></ve-pie>
+            </div>
         </div>
     </div>
 </template>
 <script>
 import headTop from '@/components/HeadTop.vue'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/polar'
-import 'echarts/lib/component/title';
-import 'echarts/lib/chart/bar';
-import "echarts/lib/chart/pie";
+import histogram from 'v-charts/lib/histogram.common'
+import pie from 'v-charts/lib/histogram.common'
+import line from 'v-charts/lib/histogram.common'
 import { mapState } from 'vuex'
 
 export default {
@@ -63,104 +63,26 @@ export default {
             data3: {},
             artStatistical: {},
             typeBeans: [],
-            artTypeBeans: []
+            artTypeBeans: [],
+            yearArtData: [],
         }
     },
     methods: {
-        initData(artTypeBeans) {
-            const typeNames = [];
-            const counts = [];
-            const pieBeans = [];
-            artTypeBeans.forEach(item => {
-                let name = item.typeName;
-                typeNames.push(name);
-
-                let count = item.count;
-                counts.push(count);
-
-                let pie = {
-                    value: item.count,
-                    name: item.typeName
-                }
-                pieBeans.push(pie);
-            })
-
-
+        initData(artTypeBeans, yearArtData) {
             this.data1 = {
-                    color: ["#64CDF0", "#F5686F"],
-                    title: {
-                        text: '数据分布',
-                    },
-                    xAxis: [{
-                        type: "category",
-                        data: typeNames,
-                        // 修改文本的颜色
-                        axisLabel: {
-                            color: "#666",
-                            fontSize: 12
-                        },
-                        // 修改轴线的颜色
-                        axisLine: {
-                            lineStyle: {
-                                color: "#999"
-                            }
-                        }
-                    }],
-                    yAxis: [{
-                        type: "value",
-                        axisLabel: {
-                            color: "#333",
-                            fontSize: 10
-                        },
-                        // 修改y轴横向分割线的颜色
-                        splitLine: {
-                            lineStyle: {
-                                color: ["#FFC9CB"]
-                            }
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                color: "#999"
-                            }
-                        }
-                    }],
-                    series: [{
-                        name: "访问",
-                        type: "bar",
-                        barWidth: "40%",
-                        label: {
-                            show: true,
-                            position: "top",
-                            color: "#666",
-                            formatter: "{c}"
-                        },
-                        data: counts
-                    }]
-                },
-                this.data2 = {
-                    title: {
-                        text: '数据饼图',
-                        x: 'left'
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
-                    },
-                    series: [{
-                        name: '访问来源',
-                        type: 'pie',
-                        radius: '55%',
-                        center: ['50%', '60%'],
-                        data: pieBeans,
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }]
-                }
+                columns: ['year', 'code', '杂文'],
+                rows: yearArtData
+            }
+
+            this.data2 = {
+                title: "code数据",
+                columns: ['typeName', 'count'],
+                rows: artTypeBeans
+            }
+            this.data3 = {
+                columns: ['typeName', 'count'],
+                rows: artTypeBeans
+            }
 
         },
         getFlowData() {
@@ -172,12 +94,21 @@ export default {
                 .then((response) => {
                     if (response.data.code == 200) {
                         this.artStatistical = response.data.data;
-                        this.typeBeans = [];
-                        this.artTypeBeans = [];
+                        // this.typeBeans = [];
+                        // this.artTypeBeans = [];
                         this.typeBeans = this.artStatistical.typeBeans;
                         this.artTypeBeans = this.artStatistical.artTypeBeans;
                         this.artTypeBeans.shift();
-                        this.initData(this.artTypeBeans);
+                        this.yearArtData = [];
+                        this.artStatistical.yearArtData.forEach(item => {
+                            let temp = {};
+                            temp.year = item.year + '年';
+                            temp.code = item.codeCount;
+                            temp.杂文 = item.essayCount;
+                            this.yearArtData.push(temp);
+                        })
+                        console.log(JSON.stringify(this.yearArtData));
+                        this.initData(this.artTypeBeans, this.yearArtData);
                     } else {
                         openToast(response.data.msg);
                     }
@@ -245,5 +176,11 @@ export default {
 .chart-root {
     /*display: flex;*/
     margin-top: 50px;
+
+    .art-chart {
+        display: flex;
+    }
+
+    .code-chart {}
 }
 </style>
