@@ -84,10 +84,11 @@ export default {
 
         login() {
             let md5pass = md5(this.ruleForm.checkPass);
-            this.$axios.post(`/admin/login`, {
-                    name: this.ruleForm.pass,
-                    psw: md5pass
-                })
+            this.$axios.post(`/admin/login`,
+                    this.$qs.stringify({
+                        "name": this.ruleForm.pass,
+                        "psw": md5pass
+                    }))
                 .then((response) => {
                     const user = response.data;
                     if (user.code === 200) {
