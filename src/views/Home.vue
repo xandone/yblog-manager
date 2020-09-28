@@ -1,7 +1,7 @@
 <template>
     <el-container style="height: 100%; border: 1px solid #eee">
         <el-aside width="280px">
-            <el-menu style="height: 100%; text-align: left" :default-active="defaultActive" background-color="#545c64" text-color="#fff" router>
+            <el-menu style="height: 100%; text-align: left" :default-active="defaultActive" background-color="#fff" text-color="#666" router>
                 <el-menu-item index="manager"><i class="el-icon-s-home"></i>首页</el-menu-item>
                 <el-submenu index="1">
                     <template slot="title"><i class="el-icon-notebook-1"></i>文章管理</template>
@@ -18,7 +18,7 @@
                     </el-menu-item-group>
                 </el-submenu>
                   <el-submenu index="3">
-                    <template slot="title"><i class="el-icon-notebook-2"></i>管理员</template>
+                    <template slot="title"><i class="el-icon-user"></i>管理员</template>
                     <el-menu-item-group>
                         <el-menu-item index="admin">管理员</el-menu-item>
                     </el-menu-item-group>

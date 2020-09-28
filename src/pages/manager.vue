@@ -1,9 +1,9 @@
 <template>
     <div class="fillcontain ">
         <headTop></headTop>
-        <header class="title">数据统计</header>
+        <header class="title"></header>
         <div class="data-tag-root">
-            <el-tag effect="dark" class="d-el-tag" color="#87DE75" style="height: 70px;">
+            <el-tag effect="dark" class="d-el-tag" color="#87DE75" style="height: 90px;">
                 <div class="data-el-tag">
                     <div class="data-tag">
                         <span>{{typeBeans[0].count}}</span><span>编程</span>
@@ -11,7 +11,7 @@
                     <img class="data-tag-icon" src="../assets/code_ic.png" alt="">
                  </div>
             </el-tag>
-            <el-tag effect="dark" class="d-el-tag" color="#93B7E3" style="height: 70px;">
+            <el-tag effect="dark" class="d-el-tag" color="#93B7E3" style="height: 90px;">
                 <div class="data-el-tag">
                     <div class="data-tag">
                         <span>{{typeBeans[1].count}}</span><span>杂文</span>
@@ -19,7 +19,7 @@
                     <img class="data-tag-icon" src="../assets/essay_ic.png" alt="">
                  </div>
             </el-tag>
-            <el-tag effect="dark" class="d-el-tag" color="#A5E7F0" style="height: 70px;">
+            <el-tag effect="dark" class="d-el-tag" color="#A5E7F0" style="height: 90px;">
                 <div class="data-el-tag">
                     <div class="data-tag">
                         <span>{{artStatistical.commentCounts}}</span><span>留言</span>
@@ -29,7 +29,12 @@
             </el-tag>
         </div>
         <div class="chart-root">
-            <ve-line :data="data1"></ve-line>
+            <div class="log-root">
+                <logList class="loglist"></logList>
+                <div class="line-chart code-chart">
+                    <ve-line :data="data1"></ve-line>
+                </div>
+            </div>
             <div class="art-chart">
                 <ve-histogram :data="data2" class='code-chart' width="80%"></ve-histogram>
                 <ve-pie :data="data3" class='code-chart' width="80%"></ve-pie>
@@ -39,6 +44,7 @@
 </template>
 <script>
 import headTop from '@/components/HeadTop.vue'
+import logList from '@/components/logList.vue'
 import histogram from 'v-charts/lib/histogram.common'
 import pie from 'v-charts/lib/histogram.common'
 import line from 'v-charts/lib/histogram.common'
@@ -47,6 +53,7 @@ import { mapState } from 'vuex'
 export default {
     components: {
         headTop,
+        logList
     },
     computed: {
         ...mapState([
@@ -94,8 +101,6 @@ export default {
                 .then((response) => {
                     if (response.data.code == 200) {
                         this.artStatistical = response.data.data;
-                        // this.typeBeans = [];
-                        // this.artTypeBeans = [];
                         this.typeBeans = this.artStatistical.typeBeans;
                         this.artTypeBeans = this.artStatistical.artTypeBeans;
                         this.artTypeBeans.shift();
@@ -137,7 +142,10 @@ export default {
 }
 
 .data-tag-root {
-    margin: 50px;
+    background-color: white;
+    border-radius: 6px;
+    margin: 10px;
+    padding: 20px 10px;
     text-align: left;
 }
 
@@ -175,12 +183,26 @@ export default {
 
 .chart-root {
     /*display: flex;*/
-    margin-top: 50px;
+    margin-top: 10px;
+
+    .log-root {
+        display: flex;
+        flex-direction: rows;
+
+        .line-chart {
+            flex-grow: 1
+        }
+    }
 
     .art-chart {
         display: flex;
     }
 
-    .code-chart {}
+    .code-chart {
+        box-sizing: border-box;
+        background-color: white;
+        border-radius: 6px;
+        margin: 0 10px 10px;
+    }
 }
 </style>
