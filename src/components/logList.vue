@@ -61,11 +61,11 @@ export default {
     }
 
     .box-card {
-        height: 100%;
+        // height: 100%;
 
         .el-card__body {
             padding: 10px 20px;
-            height: 80%;
+            // height: 80%;
         }
 
         .item {
@@ -76,7 +76,7 @@ export default {
 
     .logArea {
         overflow: auto;
-        max-height: 400px;
+        max-height: 300px;
     }
 
     .item {
