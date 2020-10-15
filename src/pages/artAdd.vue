@@ -8,7 +8,7 @@
             <div id="bar"></div>
             <div class="divide-edit-line"></div>
             <div class="select-type">
-                <span>请选择类别:</span>
+                <span>选择类别:</span>
                 <div>
                     <el-radio-group v-model="radioType" border size="small">
                         <el-radio-button label="0">编程</el-radio-button>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="cover-img">
-                <span>COVER图片:</span>
+                <span>封面图片:</span>
                 <el-upload action="http://up-z2.qiniup.com" :limit="piclimit" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handleUpSuccess" :data="qnParam" :before-upload="handleBeforeUp">
                     <i class="el-icon-plus"></i>
                 </el-upload>
@@ -42,7 +42,7 @@
             <el-button class="commit-btn" @click="addArt" type="primary" icon="el-icon-check" size="mini">保存</el-button>
             <div class="author-tip">
                 <span >xandone</span>
-                <span >2019-11-23</span>
+                <span >{{currentDate}}</span>
             </div>
             <div class="content-tip" v-html='editorHtml'>
             </div>
@@ -73,12 +73,16 @@ export default {
             dialogVisible: false,
             radioType: "0",
             selectBean: null,
+            currentDate: null
         }
     },
     mounted() {
         this.selectBean = this.$route.params.selectBean;
-        if (typeof this.$route.params.selectBean !== 'undefined') {
+        if (typeof this.selectBean !== 'undefined') {
             this.selectBean = JSON.parse(this.$route.params.selectBean);
+            this.currentDate = this.selectBean.postTime;
+        } else {
+            this.currentDate = new Date().toLocaleString('chinese', { hour12: false });
         }
         // console.log(this.selectBean);
         // 获取七牛
@@ -91,9 +95,13 @@ export default {
     },
     methods: {
         getParams() {
+            this.get_qiniu();
             if (this.$route.name === 'artAdd' && typeof this.$route.params.selectBean !== 'undefined') {
                 this.selectBean = JSON.parse(this.$route.params.selectBean);
+                this.currentDate = this.selectBean.postTime;
                 this.fillData();
+            } else {
+                this.currentDate = new Date().toLocaleString('chinese', { hour12: false });
             }
         },
         fillData() {
@@ -105,7 +113,7 @@ export default {
                 this.title = this.selectBean.title;
                 this.radioType = this.selectBean.type.toString();
                 this.coverImgUrl = this.selectBean.coverImg;
-                this.editor.txt.html(this.selectBean.contentHtml)
+                this.editor.txt.html(this.selectBean.contentHtml);
             }
         },
         getEtHtml() {
@@ -236,7 +244,6 @@ export default {
 
         handleUpSuccess(response) {
             this.coverImgUrl = "http://www.xandone.pub/" + response.key;
-            console.log(this.coverImgUrl);
         },
         handlePictureCardPreview(file) {
             this.dialogVisible = true;
@@ -264,12 +271,12 @@ export default {
 
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/common/base.scss";
 
 .edit-root {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
 
     img {
@@ -279,53 +286,60 @@ export default {
 
 .edit-area {
     width: 50%;
-    height: 100%;
+    min-height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
 
     .title {
         width: 100%;
     }
-}
 
-#bar {}
 
-.divide-edit-line {
-    height: 1px;
-    background-color: #ddd;
-}
+    #bar {}
 
-.select-type {
-    display: flex;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    span {
-        font-size: 14px;
-        font-weight: bold;
-        margin-right: 10px;
+    .divide-edit-line {
+        height: 1px;
+        background-color: #ddd;
     }
-}
 
-.cover-img {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: flex;
-    align-items: center;
+    .select-type {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 10px;
 
-    span {
-        font-size: 14px;
-        font-weight: bold;
-        margin-right: 10px;
+        span {
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
     }
-}
 
-#editor {
-    height: 100%;
-    text-align: left;
+    .cover-img {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+
+        span {
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    }
+
+    #editor {
+        height: 100%;
+        text-align: left;
+        flex-grow: 1;
+    }
 }
 
 .preview {
     width: 50%;
     padding: 10px;
+    background-color: white;
+    border-left: 1px solid #ddd;
 
     .title-tip {
         font-size: 18px;
@@ -354,6 +368,17 @@ export default {
     .commit-btn {
         position: absolute;
         right: 20px;
+    }
+
+    code {
+        font-size: 16px;
+        color: #555;
+    }
+
+    pre {
+        padding: 0 10px;
+        background-color: #f6f6f6;
+        overflow: auto;
     }
 }
 </style>

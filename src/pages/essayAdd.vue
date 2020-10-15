@@ -14,7 +14,7 @@
             <el-button class="commit-btn" @click="addEssay" type="primary" icon="el-icon-check" size="mini">保存</el-button>
             <div class="author-tip">
                 <span >xandone</span>
-                <span >2019-11-23</span>
+                <span >{{currentDate}}</span>
             </div>
             <div class="content-tip" v-html='editorHtml'>
             </div>
@@ -37,12 +37,16 @@ export default {
             editor: '',
             qiniu_token: '',
             selectBean: null,
+            currentDate: null
         }
     },
     mounted() {
         this.selectBean = this.$route.params.selectBean;
         if (typeof this.$route.params.selectBean !== 'undefined') {
             this.selectBean = JSON.parse(this.$route.params.selectBean);
+            this.currentDate = this.selectBean.postTime;
+        } else {
+            this.currentDate = new Date().toLocaleString('chinese', { hour12: false });
         }
         // 获取七牛
         // this.upload_imgs();
@@ -54,9 +58,13 @@ export default {
     },
     methods: {
         getParams() {
+            this.get_qiniu();
             if (this.$route.name === 'essayAdd' && typeof this.$route.params.selectBean !== 'undefined') {
                 this.selectBean = JSON.parse(this.$route.params.selectBean);
+                this.currentDate = this.selectBean.postTime;
                 this.fillData();
+            } else {
+                this.currentDate = new Date().toLocaleString('chinese', { hour12: false });
             }
         },
         fillData() {
@@ -208,12 +216,12 @@ export default {
 
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/common/base.scss";
 
 .edit-root {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
 
     img {
@@ -223,28 +231,36 @@ export default {
 
 .edit-area {
     width: 50%;
-    height: 100%;
+    min-height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction:column;
 
     .title {
         width: 100%;
     }
-}
 
-#bar {}
 
-#divide-edit-line {
-    height: 1px;
-    background-color: #ddd;
-}
+    #bar {}
 
-#editor {
-    height: 100%;
-    text-align: left;
+    #divide-edit-line {
+        height: 1px;
+        background-color: #ddd;
+    }
+
+    #editor {
+        height: 100%;
+        text-align: left;
+        flex-grow: 1;
+    }
 }
 
 .preview {
     width: 50%;
+    min-height: 100%;
     padding: 10px;
+    background-color: white;
+    border-left: 1px solid #ddd;
 
     .title-tip {
         font-size: 18px;

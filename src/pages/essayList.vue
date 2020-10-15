@@ -17,8 +17,8 @@
                         <el-form-item label="标签">
                             <el-tag v-for='i in props.row.tags' size='small' type="success" style="margin-right: 10px">{{JOKE_TAGS[i]}}</el-tag>
                         </el-form-item>
-                        <el-form-item label="首页图片">
-                            <el-image @click='showImg(props.$index,props.row)' style="width: 120px; height: 120px; margin-top:10px;" class="avatar" v-if="props.row.coverImg" :src="props.row.coverImg"></el-image>
+                        <el-form-item label="封面图片">
+                            <el-image @click='showImg(props.$index,props.row)' style="width: 200px; height: 140px; margin-top:10px;" class="avatar" v-if="props.row.coverImg" :src="props.row.coverImg"></el-image>
                         </el-form-item>
                         <el-form-item label="文章地址">
                             <el-link href="http://www.baidu.com" target='_blank' type="primary">{{ props.row.title }}</el-link>
