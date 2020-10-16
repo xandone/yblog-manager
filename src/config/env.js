@@ -1,5 +1,5 @@
 let baseUrl = '//xandone.pub/yblog';
-// const baseUrl = '//localhost/yblog';
+// const baseUrl = '//localhost/';
 const ART_DETAILS_URL = baseUrl+'/artDetails/';
 
 const baseImgPath = '/img/';

@@ -112,7 +112,6 @@ export default {
                             temp.杂文 = item.essayCount;
                             this.yearArtData.push(temp);
                         })
-                        console.log(JSON.stringify(this.yearArtData));
                         this.initData(this.artTypeBeans, this.yearArtData);
                     } else {
                         openToast(response.data.msg);

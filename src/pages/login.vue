@@ -1,7 +1,7 @@
 <template>
     <div class="fillcontain ">
         <div class="img-bg">
-            <el-image :fit='cover' src="http://www.xandone.pub/mainimage.jpg" style="width: 100%; height: 100%"></el-image>
+            <el-image src="http://www.xandone.pub/mainimage.jpg" style="width: 100%; height: 100%"></el-image>
         </div>
         <div class="fillcontain login-bg">
             <div class="logo-root">
@@ -95,7 +95,6 @@ export default {
                         this.$router.push('manager');
                         setStore(USER_INFO_KEY, user.data[0]);
                         this.$store.commit("initUserInfo", user.data[0].adminId);
-
                     } else {
                         this.openToast(user.msg);
                     }
