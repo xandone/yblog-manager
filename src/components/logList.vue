@@ -8,7 +8,7 @@
                 <span>项目更新日志：</span>
             </div>
             <div class="logArea el-scrollbar">
-                <div class="item" v-for="(item,index) in logsData" :key="index">
+                <div class="item" v-for="(item,index) in logTips" :key="index">
                     <p class="timeArea">
                         <span class="title">日期：</span>
                         <span class="title time">{{item.createTime}}</span>
@@ -25,14 +25,19 @@
     </div>
 </template>
 <script>
-import logsData from "@/assets/logs.json";
+// import logsData from "@/assets/logs.json";
 import { github } from "@/config/env";
 
 export default {
     name: 'logList',
+    props: {
+        logTips: {
+            type: Array
+        }
+    },
     data() {
         return {
-            logsData: logsData.data,
+            // logsData: logTips,
             github: github
         };
     }

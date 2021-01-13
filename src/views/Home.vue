@@ -17,10 +17,11 @@
                         <el-menu-item index="essayAdd">发布杂文</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-                  <el-submenu index="3">
+                <el-submenu index="3">
                     <template slot="title"><i class="el-icon-user"></i>管理员</template>
                     <el-menu-item-group>
                         <el-menu-item index="admin">管理员</el-menu-item>
+                        <el-menu-item index="logView">日志更新</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>

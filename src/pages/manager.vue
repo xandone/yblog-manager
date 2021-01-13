@@ -30,7 +30,7 @@
         </div>
         <div class="chart-root">
             <div class="log-root">
-                <logList class="loglist"></logList>
+                <logList class="loglist" :logTips="artStatistical.logBeans"></logList>
                 <div class="line-chart code-chart">
                     <ve-line :data="data1"></ve-line>
                 </div>
