@@ -8,7 +8,7 @@ import artAdd from '../pages/artAdd.vue'
 import essayList from '../pages/essayList.vue'
 import essayAdd from '../pages/essayAdd.vue'
 import admin from '../pages/admin.vue'
-import logView from '../pages/logView.vue'
+import logAdd from '../pages/logAdd.vue'
 
 Vue.use(VueRouter)
 
@@ -51,9 +51,9 @@ const routes = [{
         component: admin,
         meta: ['管理员', '管理员'],
     }, {
-        path: '/logView',
-        name: 'logView',
-        component: logView,
+        path: '/logAdd',
+        name: 'logAdd',
+        component: logAdd,
         meta: ['管理员', '日志更新'],
     }]
 }]
