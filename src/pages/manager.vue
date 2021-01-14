@@ -114,7 +114,7 @@ export default {
                         })
                         this.initData(this.artTypeBeans, this.yearArtData);
                     } else {
-                        openToast(response.data.msg);
+                        this.openToast(response.data.msg);
                     }
                 })
                 .catch((error) => {

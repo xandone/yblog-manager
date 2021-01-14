@@ -1,17 +1,23 @@
 <template>
     <div id="log-root">
-        <el-date-picker v-model="value1" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-        </el-date-picker>
+        <div>
+            <span class="title-tip">日期</span>
+            <el-date-picker v-model="value1" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+            </el-date-picker>
+        </div>
         <div class="log-content" v-for="(item, index) in listObj" :key="index">
-            <i class="el-icon-paperclip"></i>
-            <span class="item-num">{{index+1}}</span>
-            <div style="width: 100%">
+            <div class="title-tip">
+                <i class="el-icon-paperclip"></i>
+                <span class="item-num">{{index+1}}</span>
+            </div>
+            <div style="width: 80%">
                 <el-input v-model="item.value" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入更新日志..">
                 </el-input>
             </div>
+            <el-button @click="removeListObj(index)" style="margin-left: 10px" icon="el-icon-minus" type="danger" circle size="small" v-if="index!=0"></el-button>
         </div>
         <div style="margin-top: 10px;">
-            <el-button @click="addListObjItem" type="primary" icon="el-icon-edit">添加</el-button>
+            <el-button @click="addListObjItem" type="primary" icon="el-icon-plus" circle></el-button>
             <el-button @click="addLogs" type="primary" icon="el-icon-check">保存</el-button>
         </div>
     </div>
@@ -65,6 +71,9 @@ export default {
         addListObjItem() {
             this.listObj.push({ value: '' })
         },
+        removeListObj(index) {
+            this.listObj.splice(index, 1);
+        },
         openToast(msg) {
             this.$notify.error({
                 title: '错误',
@@ -85,6 +94,11 @@ export default {
 #log-root {
     text-align: left;
     padding: 50px 10px;
+
+    .title-tip {
+        width: 50px;
+        display: inline-block;
+    }
 
     .log-content {
         margin-top: 10px;

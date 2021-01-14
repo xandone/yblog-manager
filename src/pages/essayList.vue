@@ -200,7 +200,7 @@ export default {
                 essayId: bean.essayId
             });
             let params = this.$qs.stringify({
-                adminId: "250",
+                adminId: this.adminId,
                 jsonEssay: essayBean
             });
             this.$axios.post(`/essay/setBanner`, params)

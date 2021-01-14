@@ -24,10 +24,15 @@
 <script>
 import E from 'wangeditor'
 import { baseUrl } from '@/config/env'
+import { mapState } from 'vuex'
 
 export default {
     components: {},
-    computed: {},
+    computed: {
+        ...mapState([
+            'adminId'
+        ])
+    },
     data() {
         return {
             essayId: '',
@@ -98,6 +103,7 @@ export default {
         },
         addEssay() {
             this.$axios.post(`/essay/add`, {
+                    adminId: this.adminId,
                     essayId: this.essayId,
                     title: this.title,
                     artUserId: "1",
@@ -234,7 +240,7 @@ export default {
     min-height: 100%;
     padding: 10px;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
 
     .title {
         width: 100%;

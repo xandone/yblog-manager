@@ -52,10 +52,15 @@
 <script>
 import E from 'wangeditor'
 import { baseUrl } from '@/config/env'
+import { mapState } from 'vuex'
 
 export default {
     components: {},
-    computed: {},
+    computed: {
+        ...mapState([
+            'adminId'
+        ])
+    },
     data() {
         return {
             artId: '',
@@ -136,6 +141,7 @@ export default {
         },
         addArt() {
             this.$axios.post(`/art/add`, {
+                    adminId: this.adminId,
                     artId: this.artId,
                     title: this.title,
                     artUserId: "1",

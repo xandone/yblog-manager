@@ -11,6 +11,8 @@ import { getStore } from '@/utils/utils.js'
 import { USER_INFO_KEY } from '@/config/env'
 import router from '@/router'
 
+let vue = new Vue();
+
 
 let token = '';
 axios.defaults.baseURL = baseUrl;
@@ -51,6 +53,10 @@ axios.interceptors.response.use(function(response) {
             // routerIndex.push('/login');
             router.push('login');
         }
+        if (parseInt(response.data.code) === 204) {
+            openToast(response.data.msg);
+            return Promise.reject('error');
+        }
     }
     return response;
 }, function(error) {
@@ -59,6 +65,13 @@ axios.interceptors.response.use(function(response) {
     // road.$message.error("服务器连接失败");
     return Promise.reject(error);
 })
+
+function openToast(msg) {
+    vue.$notify.error({
+        title: '错误',
+        message: msg
+    });
+}
 
 
 /*使用axios插件*/
