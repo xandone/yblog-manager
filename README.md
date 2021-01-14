@@ -5,10 +5,11 @@
 [后台地址](http://xandone.pub/yblogmanager/login?_blank)
 
 ### 测试账户登录
-账户：test
-密码：123456
+```
+账户：test<br/>
+密码：123456<br/>
 权限有限，仅能浏览。
-
+```
 
 ## Project setup
 ```
