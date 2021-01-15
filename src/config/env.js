@@ -1,6 +1,7 @@
-// let baseUrl = '//xandone.pub/yblog';
-const baseUrl = '//localhost/';
-const ART_DETAILS_URL = baseUrl+'/artDetails/';
+let baseUrl = '//xandone.pub/yblog';
+// const baseUrl = '//localhost/';
+const ART_DETAILS_URL = '//xandone.pub/artDetails/';
+const ESSAY_DETAILS_URL = '//xandone.pub/essayDetails/';
 
 const baseImgPath = '/img/';
 
@@ -12,6 +13,7 @@ const github = 'https://github.com/xandone/yblog-manager';
 export {
     baseUrl,
     ART_DETAILS_URL,
+    ESSAY_DETAILS_URL,
     baseImgPath,
     TOP_BAR_INDEX_KEY,
     USER_INFO_KEY

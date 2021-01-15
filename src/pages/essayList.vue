@@ -14,14 +14,11 @@
                         <el-form-item label="浏览量">
                             <span>{{ props.row.essayBrowseCount }}</span>
                         </el-form-item>
-                        <el-form-item label="标签">
-                            <el-tag v-for='i in props.row.tags' size='small' type="success" style="margin-right: 10px">{{JOKE_TAGS[i]}}</el-tag>
-                        </el-form-item>
                         <el-form-item label="封面图片">
                             <el-image @click='showImg(props.$index,props.row)' style="width: 200px; height: 140px; margin-top:10px;" class="avatar" v-if="props.row.coverImg" :src="props.row.coverImg"></el-image>
                         </el-form-item>
                         <el-form-item label="文章地址">
-                            <el-link href="http://www.baidu.com" target='_blank' type="primary">{{ props.row.title }}</el-link>
+                            <el-link :href="props.row.artUrl" target='_blank' type="primary">{{ props.row.title }}</el-link>
                         </el-form-item>
                     </el-form>
                 </el-table-column>
@@ -68,8 +65,7 @@
 import headTop from '@/components/HeadTop'
 import comment from '@/components/comment'
 import { mapState } from 'vuex'
-const JOKE_CATEGORY = { "0": "网络", "1": "自创", "2": "听说" };
-const JOKE_TAGS = { "0": "经典", "1": "荤笑话", "2": "精分", "3": "脑残", "4": "冷笑话" };
+import { ESSAY_DETAILS_URL } from '@/config/env.js'
 
 export default {
     components: {
@@ -86,7 +82,6 @@ export default {
     },
     data() {
         return {
-            JOKE_TAGS: JOKE_TAGS,
             tableData: [],
             page: 1,
             row: 10,
@@ -132,12 +127,8 @@ export default {
                         tableData.essayUserId = item.essayUserId;
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
+                        tableData.artUrl = ESSAY_DETAILS_URL + item.essayId;
                         tableData.isTopping = item.isTopping.toString();
-                        if (item.category) {
-                            tableData.category = JOKE_CATEGORY[item.category];
-                        } else {
-                            tableData.category = JOKE_CATEGORY['0'];
-                        }
                         if (item.tags) {
                             tableData.tags = JSON.parse(item.tags);
                         } else {
