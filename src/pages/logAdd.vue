@@ -1,35 +1,43 @@
 <template>
     <div id="log-root">
-        <div>
-            <span class="title-tip">日期</span>
-            <el-date-picker v-model="value1" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-            </el-date-picker>
-        </div>
-        <div class="log-content" v-for="(item, index) in listObj" :key="index">
-            <div class="title-tip">
-                <i class="el-icon-paperclip"></i>
-                <span class="item-num">{{index+1}}</span>
+        <headTop />
+        <div class="log-admin">
+            <div>
+                <span class="title-tip">日期</span>
+                <el-date-picker v-model="value1" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+                </el-date-picker>
             </div>
-            <div style="width: 80%">
-                <el-input v-model="item.value" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入更新日志..">
-                </el-input>
+            <div class="log-content" v-for="(item, index) in listObj" :key="index">
+                <div class="title-tip">
+                    <i class="el-icon-paperclip"></i>
+                    <span class="item-num">{{index+1}}</span>
+                </div>
+                <div style="width: 80%">
+                    <el-input v-model="item.value" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入更新日志..">
+                    </el-input>
+                </div>
+                <el-button @click="removeListObj(index)" style="margin-left: 10px" icon="el-icon-minus" type="danger" circle size="small" v-if="index!=0"></el-button>
             </div>
-            <el-button @click="removeListObj(index)" style="margin-left: 10px" icon="el-icon-minus" type="danger" circle size="small" v-if="index!=0"></el-button>
-        </div>
-        <div style="margin-top: 10px;">
-            <el-button @click="addListObjItem" type="primary" icon="el-icon-plus" circle></el-button>
-            <el-button @click="addLogs" type="primary" icon="el-icon-check">保存</el-button>
+            <div style="margin-top: 10px;">
+                <el-button @click="addListObjItem" type="primary" icon="el-icon-plus" circle></el-button>
+                <el-button @click="addLogs" type="primary" icon="el-icon-check">保存</el-button>
+            </div>
         </div>
     </div>
 </template>
 <script type="text/javascript">
 import { mapState } from 'vuex'
+import headTop from '@/components/HeadTop'
 export default {
     data() {
         return {
             value1: '',
             listObj: [{ value: '' }]
         }
+    },
+
+    components: {
+        headTop
     },
 
     computed: {
@@ -92,23 +100,28 @@ export default {
 </script>
 <style lang="scss">
 #log-root {
-    text-align: left;
-    padding: 50px 10px;
 
-    .title-tip {
-        width: 50px;
-        display: inline-block;
-    }
+    .log-admin {
+        text-align: left;
+        padding: 30px 10px;
 
-    .log-content {
-        margin-top: 10px;
-        width: 50%;
-        display: flex;
-        align-items: center;
+        .title-tip {
+            width: 50px;
+            display: inline-block;
+        }
 
-        .item-num {
-            margin-right: 10px;
+        .log-content {
+            margin-top: 10px;
+            width: 50%;
+            display: flex;
+            align-items: center;
+
+            .item-num {
+                margin-right: 10px;
+            }
         }
     }
+
+
 }
 </style>

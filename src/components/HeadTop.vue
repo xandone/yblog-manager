@@ -1,16 +1,18 @@
 <template>
-    <div class="head-root">
+    <div id="head-root">
         <el-breadcrumb separator="/">
             <el-breadcrumb-item style='font-size: 16px ;' :to="{ path: '/manager' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index">{{item}}</el-breadcrumb-item>
         </el-breadcrumb>
-        <el-dropdown @command="dealCommand" style="font-size: 12px">
-            <i class="el-icon-setting admin-tv" style="margin-right: 30px;">
-              <span>{{info.nickname}}</span>
-            </i>
+        <el-dropdown @command="dealCommand" style="font-size: 13px;" trigger="hover" placement="bottom">
+            <div class="admin-ic">
+                <el-avatar :src="info.adminIcon">
+                </el-avatar>
+                <span class="admin-name"> {{info.nickname}}</span>
+            </div>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="userInfo">查看</el-dropdown-item>
-                <el-dropdown-item command="exit">退出</el-dropdown-item>
+                <el-dropdown-item command="userInfo"><i class="el-icon-user"> 查看</i></el-dropdown-item>
+                <el-dropdown-item command="exit"><i class="el-icon-remove-outline"> 退出</i></el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-dialog title="提示" :visible.sync="dialogVisible" width="25%">
@@ -47,6 +49,7 @@ export default {
                 this.$router.push('login');
                 return;
             }
+            console.log("icon=" + data.adminIcon);
             this.info = data;
             this.$store.commit("initUserInfo", data.adminId);
         },
@@ -71,17 +74,28 @@ export default {
 
 }
 </script>
-<style>
-.head-root {
+<style lang="scss">
+#head-root {
     background-color: #EFF2F7;
     height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-left: 20px;
-}
 
-.admin-tv {
-    font-size: 14px;
+    .admin-ic {
+        display: flex;
+        align-items: center;
+        margin-right: 50px;
+
+        .admin-name {
+            margin-left: 5px;
+        }
+    }
+
+    .admin-tv {
+        font-size: 14px;
+    }
+
 }
 </style>
