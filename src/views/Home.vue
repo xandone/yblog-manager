@@ -22,6 +22,7 @@
                     <el-menu-item-group>
                         <el-menu-item index="admin">管理员</el-menu-item>
                         <el-menu-item index="logAdd">日志更新</el-menu-item>
+                        <el-menu-item index="apkVersion">apk版本</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>

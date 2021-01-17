@@ -9,6 +9,7 @@ import essayList from '../pages/essayList.vue'
 import essayAdd from '../pages/essayAdd.vue'
 import admin from '../pages/admin.vue'
 import logAdd from '../pages/logAdd.vue'
+import apkVersion from '../pages/apkVersion.vue'
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,11 @@ const routes = [{
         name: 'logAdd',
         component: logAdd,
         meta: ['管理员', '日志更新'],
+    }, {
+        path: '/apkVersion',
+        name: 'apkVersion',
+        component: apkVersion,
+        meta: ['管理员', 'apk版本'],
     }]
 }]
 
