@@ -37,7 +37,6 @@
                         <el-button size="mini" @click='dealDelete(scope.$index,scope.row)' type="danger">删除</el-button>
                         <el-switch @change="changeTopping(scope.row)" v-model="tableData[scope.$index].isTopping" active-value="1" inactive-value="0" active-text="置顶" style="margin-left: 10px;">
                         </el-switch>
-                        </el-switch>
                     </template>
                 </el-table-column>
             </el-table>

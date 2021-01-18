@@ -1,5 +1,21 @@
 <template>
-    <div id="apk-root">
+    <div id="apk-root" v-loading="loading">
+        <headTop></headTop>
+        <el-table class="apk-record" :data="apkBeans">
+            <el-table-column type="index">
+            </el-table-column>
+            <el-table-column property="versionName" label="版本号">
+            </el-table-column>
+             <el-table-column property="versionTip" label="版本说明">
+            </el-table-column>
+            <el-table-column property="postTime" label="发布时间">
+            </el-table-column>
+            <el-table-column property="apkId" label="下载">
+                <template slot-scope="scope">
+                    <el-button v-if="scope.$index==0" icon="el-icon-download" type="success" @click='loadApk()' circle></el-button>
+                </template>
+            </el-table-column>
+        </el-table>
         <div style="width: 50%">
             <div class="apk-info">
                 <span>版本code：</span>
@@ -13,26 +29,25 @@
                 <span>版本更新说明：</span>
                 <el-input v-model="value3" type="textarea" :autosize="{ minRows: 5, maxRows: 8}" placeholder="请输入更新日志.."></el-input>
             </div>
+            <div class="apk-info" style="margin: 20px 0;">
+                <span>强制更新：</span>
+                <el-switch v-model="isForce" active-value="1" inactive-value="0">
+                </el-switch>
+            </div>
         </div>
-        <div class="apk-file"><input type="file"> </div>
+        <div class="apk-file"><input type="file" @change="changeFile($event)"> </div>
         <div class="up-btn">
-            <el-button type="primary">上传apk</el-button>
+            <el-button type="primary" @click="uploadApk()">上传apk</el-button>
         </div>
-        <el-table class="apk-record" :data="apkBeans">
-            <el-table-column property="versionCode" label="版本号">
-            </el-table-column>
-            <el-table-column property="postTime" label="发布时间">
-            </el-table-column>
-            <el-table-column property="artId" label="下载">
-                <template slot-scope="scope">
-                    <el-button icon="el-icon-download" type="success" @click='dealComment(scope.$index,scope.row)' circle></el-button>
-                </template>
-            </el-table-column>
-        </el-table>
     </div>
 </template>
 <script>
+import headTop from '@/components/HeadTop'
+import { mapState } from 'vuex'
 export default {
+    components: {
+        headTop
+    },
 
     data() {
         return {
@@ -40,15 +55,91 @@ export default {
             value2: "",
             value3: "",
             apkBeans: [],
+            file: null,
+            loading: false,
+            isForce: '0'
         }
+    },
+    computed: {
+        ...mapState([
+            'adminId'
+        ])
     },
     created() {
-        this.getVersionList();
+        this.getApkList();
     },
     methods: {
-        getVersionList() {
-            this.apkBeans = [{ versionCode: 'v1 .1 .0(3)', postTime: "2021-01-15 23:00:11" }];
-        }
+        uploadApk() {
+            const data = new FormData();
+            data.append('codeName', this.value1);
+            data.append('versionName', this.value2);
+            data.append('versionTip', this.value3);
+            data.append('isForce', this.isForce);
+            data.append('apkfile', this.file);
+            this.loading = true;
+            this.$axios.post(`/apk/apkupload`, data, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                .then((response) => {
+                    const result = response.data;
+                    if (result && result.code === 200) {
+                        this.openSuccess('保存成功!');
+                    } else {
+                        this.openToast('保存失败，服务器异常');
+                    }
+                    this.loading = false;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.loading = false;
+                });
+
+        },
+        loadApk() {
+            this.$axios.get(`/apk/apkdown`, {
+                    params: {}
+                })
+                .then((response) => {})
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        changeFile(e) {
+            this.file = e.target.files[0];
+        },
+        getApkList() {
+            this.$axios.get(`/apk/apklist`, {
+                    params: {
+                        adminId: this.adminId
+                    }
+                })
+                .then((response) => {
+                    const data = response.data.data;
+                    this.apkBeans = [];
+                    data.forEach(item => {
+                        item.versionName = "v_" + item.versionName + "(" + item.versionCode + ")"
+                        this.apkBeans.push(item);
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+
+        },
+        openToast(msg) {
+            this.$notify.error({
+                title: '错误',
+                message: msg
+            });
+        },
+        openSuccess(msg) {
+            this.$message({
+                message: msg,
+                type: 'success'
+            });
+        },
     }
 }
 </script>
@@ -72,12 +163,11 @@ export default {
 
     .up-btn {
         text-align: left;
-        padding-top: 10px;
+        padding-top: 20px;
     }
 
     .apk-record {
         width: 100%;
-        margin-top: 20px;
     }
 }
 </style>
