@@ -1,7 +1,9 @@
-// let baseUrl = '//xandone.pub/yblog';
-const baseUrl = '//localhost/';
+let baseUrl = '//xandone.pub/yblog';
+// const baseUrl = '//localhost/';
 const ART_DETAILS_URL = '//xandone.pub/artDetails/';
 const ESSAY_DETAILS_URL = '//xandone.pub/essayDetails/';
+
+const APK_DOWNLOAD_URL = baseUrl + '/apk/apkdown/';
 
 const baseImgPath = '/img/';
 
@@ -16,5 +18,6 @@ export {
     ESSAY_DETAILS_URL,
     baseImgPath,
     TOP_BAR_INDEX_KEY,
-    USER_INFO_KEY
+    USER_INFO_KEY,
+    APK_DOWNLOAD_URL
 }

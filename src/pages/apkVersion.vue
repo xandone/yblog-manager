@@ -6,7 +6,7 @@
             </el-table-column>
             <el-table-column property="versionName" label="版本号">
             </el-table-column>
-             <el-table-column property="versionTip" label="版本说明">
+            <el-table-column property="versionTip" label="版本说明">
             </el-table-column>
             <el-table-column property="postTime" label="发布时间">
             </el-table-column>
@@ -44,6 +44,7 @@
 <script>
 import headTop from '@/components/HeadTop'
 import { mapState } from 'vuex'
+import {APK_DOWNLOAD_URL} from '@/config/env'
 export default {
     components: {
         headTop
@@ -75,6 +76,7 @@ export default {
             data.append('versionName', this.value2);
             data.append('versionTip', this.value3);
             data.append('isForce', this.isForce);
+            data.append('adminId', this.adminId);
             data.append('apkfile', this.file);
             this.loading = true;
             this.$axios.post(`/apk/apkupload`, data, {
@@ -98,13 +100,12 @@ export default {
 
         },
         loadApk() {
-            this.$axios.get(`/apk/apkdown`, {
-                    params: {}
-                })
-                .then((response) => {})
-                .catch((error) => {
-                    console.log(error);
-                });
+            let link = document.createElement('a')
+            link.style.display = 'none'
+            link.href = APK_DOWNLOAD_URL
+            link.setAttribute('download', 'excel.xlsx')
+            document.body.appendChild(link)
+            link.click()
         },
         changeFile(e) {
             this.file = e.target.files[0];
