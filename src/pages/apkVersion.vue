@@ -103,7 +103,7 @@ export default {
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = APK_DOWNLOAD_URL
-            link.setAttribute('download', 'excel.xlsx')
+            // link.setAttribute('download', 'excel.xlsx')
             document.body.appendChild(link)
             link.click()
         },
