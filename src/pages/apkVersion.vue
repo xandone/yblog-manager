@@ -16,35 +16,37 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div style="width: 50%">
-            <div class="apk-info">
-                <span>版本code：</span>
-                <el-input v-model="value1" placeholder="请输入版本code"></el-input>
+        <div class="publish-apk">
+            <div style="width: 50%">
+                <div class="apk-info">
+                    <span>版本code：</span>
+                    <el-input v-model="value1" placeholder="请输入版本code"></el-input>
+                </div>
+                <div class="apk-info">
+                    <span>版本号：</span>
+                    <el-input v-model="value2" placeholder="请输入版本号"></el-input>
+                </div>
+                <div class="apk-info">
+                    <span>版本更新说明：</span>
+                    <el-input v-model="value3" type="textarea" :autosize="{ minRows: 5, maxRows: 8}" placeholder="请输入更新日志.."></el-input>
+                </div>
+                <div class="apk-info" style="margin: 20px 0;">
+                    <span>强制更新：</span>
+                    <el-switch v-model="isForce" active-value="1" inactive-value="0">
+                    </el-switch>
+                </div>
             </div>
-            <div class="apk-info">
-                <span>版本号：</span>
-                <el-input v-model="value2" placeholder="请输入版本号"></el-input>
+            <div class="apk-file"><input type="file" @change="changeFile($event)"> </div>
+            <div class="up-btn">
+                <el-button type="primary" @click="uploadApk()">上传apk</el-button>
             </div>
-            <div class="apk-info">
-                <span>版本更新说明：</span>
-                <el-input v-model="value3" type="textarea" :autosize="{ minRows: 5, maxRows: 8}" placeholder="请输入更新日志.."></el-input>
-            </div>
-            <div class="apk-info" style="margin: 20px 0;">
-                <span>强制更新：</span>
-                <el-switch v-model="isForce" active-value="1" inactive-value="0">
-                </el-switch>
-            </div>
-        </div>
-        <div class="apk-file"><input type="file" @change="changeFile($event)"> </div>
-        <div class="up-btn">
-            <el-button type="primary" @click="uploadApk()">上传apk</el-button>
         </div>
     </div>
 </template>
 <script>
 import headTop from '@/components/HeadTop'
 import { mapState } from 'vuex'
-import {APK_DOWNLOAD_URL} from '@/config/env'
+import { APK_DOWNLOAD_URL } from '@/config/env'
 export default {
     components: {
         headTop
@@ -80,6 +82,7 @@ export default {
             data.append('apkfile', this.file);
             this.loading = true;
             this.$axios.post(`/apk/apkupload`, data, {
+                    timeout: 60000,
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -147,7 +150,14 @@ export default {
 <style lang="scss">
 #apk-root {
     width: 100%;
-    padding: 10px;
+
+    .apk-record {
+        width: 100%;
+    }
+
+    .publish-apk {
+        padding: 10px;
+    }
 
     .apk-file {
         margin-top: 10px;
@@ -165,10 +175,6 @@ export default {
     .up-btn {
         text-align: left;
         padding-top: 20px;
-    }
-
-    .apk-record {
-        width: 100%;
     }
 }
 </style>
