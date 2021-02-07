@@ -35,7 +35,7 @@
                         <el-button size="mini" @click='dealComment(scope.$index,scope.row)'>评论</el-button>
                         <el-button size="mini" @click='dealEdit(scope.$index,scope.row)' type='warning'>编辑</el-button>
                         <el-button size="mini" @click='dealDelete(scope.$index,scope.row)' type="danger">删除</el-button>
-                        <el-switch @change="changeTopping(scope.row)" v-model="tableData[scope.$index].isTopping" active-value="1" inactive-value="0" active-text="置顶" style="margin-left: 10px;">
+                        <el-switch @change="changeTopping(scope.row)" v-model="tableData[scope.$index].isTopping" active-value='1' inactive-value='0' active-text="置顶" style="margin-left: 10px;">
                         </el-switch>
                     </template>
                 </el-table-column>
@@ -91,7 +91,6 @@ export default {
             dialogCommentVisible: false,
             selectTable: {},
             selectIndex: -1,
-            // isTopping: '0'
         }
     },
     methods: {
@@ -127,7 +126,7 @@ export default {
                         tableData.postTime = item.postTime;
                         tableData.title = item.title;
                         tableData.artUrl = ESSAY_DETAILS_URL + item.essayId;
-                        tableData.isTopping = item.isTopping.toString();
+                        tableData.isTopping = item.isTopping ? "1" : "0";
                         if (item.tags) {
                             tableData.tags = JSON.parse(item.tags);
                         } else {
@@ -186,13 +185,14 @@ export default {
         },
         changeTopping(bean) {
             let essayBean = JSON.stringify({
-                isTopping: bean.isTopping,
+                isTopping: bean.isTopping === '1',
                 essayId: bean.essayId
             });
             let params = this.$qs.stringify({
                 adminId: this.adminId,
                 jsonEssay: essayBean
             });
+            console.log(essayBean);
             this.$axios.post(`/essay/setBanner`, params)
                 .then((response) => {
                     const result = response.data;
@@ -200,8 +200,8 @@ export default {
                         this.openSuccess('恭喜，修改成功!');
                     } else if (result.msg) {
                         this.$message.error(result.msg);
-                    }else{
-                         this.$message.error('操作失败');
+                    } else {
+                        this.$message.error('操作失败');
                     }
                 })
                 .catch((error) => {

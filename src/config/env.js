@@ -1,5 +1,5 @@
-let baseUrl = '//xandone.pub/yblog';
-// const baseUrl = '//localhost/yblog';
+// let baseUrl = '//xandone.pub/yblog';
+const baseUrl = '//localhost/';
 const ART_DETAILS_URL = '//xandone.pub/artDetails/';
 const ESSAY_DETAILS_URL = '//xandone.pub/essayDetails/';
 
