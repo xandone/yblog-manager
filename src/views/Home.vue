@@ -18,6 +18,12 @@
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-picture-outline-round"></i>图片管理</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="photoAdd">新增图片</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="4">
                     <template slot="title"><i class="el-icon-user"></i>管理员</template>
                     <el-menu-item-group>
                         <el-menu-item index="admin">管理员</el-menu-item>

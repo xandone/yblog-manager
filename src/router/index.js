@@ -10,6 +10,7 @@ import essayAdd from '../pages/essayAdd.vue'
 import admin from '../pages/admin.vue'
 import logAdd from '../pages/logAdd.vue'
 import apkVersion from '../pages/apkVersion.vue'
+import photoAdd from '../pages/photoAdd.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,11 @@ const routes = [{
         name: 'essayAdd',
         component: essayAdd,
         meta: ['杂文管理', '发布杂文'],
+    }, {
+        path: '/photoAdd',
+        name: 'photoAdd',
+        component: photoAdd,
+        meta: ['图片管理', '新增图片'],
     }, {
         path: '/admin',
         name: 'admin',
