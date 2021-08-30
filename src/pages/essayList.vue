@@ -225,7 +225,7 @@ export default {
 
 }
 </script>
-<style>
+<style lang="scss">
 .fillcontain {
     height: 100%;
     width: 100%;

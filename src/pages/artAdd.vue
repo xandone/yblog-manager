@@ -27,7 +27,7 @@
             </div>
             <div class="cover-img">
                 <span>封面图片:</span>
-                <el-upload action="http://up-z2.qiniup.com" :limit="piclimit" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handleUpSuccess" :data="qnParam" :before-upload="handleBeforeUp">
+                <el-upload action="http://up-z2.qiniup.com" :limit="1" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handleUpSuccess" :data="qnParam" :before-upload="handleBeforeUp">
                     <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
