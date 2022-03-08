@@ -186,7 +186,7 @@ export default {
 
     .log-root {
         display: flex;
-        flex-direction: rows;
+        flex-direction: row;
 
         .line-chart {
             flex-grow: 1

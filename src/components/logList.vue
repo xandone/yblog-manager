@@ -44,7 +44,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "@/common/scrollbar.scss";
+@import "~@/common/scrollbar.scss";
 
 
 .logContainer {

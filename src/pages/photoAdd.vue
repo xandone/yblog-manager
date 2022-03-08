@@ -97,7 +97,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "@/common/base";
+@import "~@/common/base";
 
 #photo-add {
     position: relative;

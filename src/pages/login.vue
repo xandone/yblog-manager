@@ -144,7 +144,7 @@ export default {
     margin-left: 50px;
     height: 210px;
     padding: 25px;
-    font-family: '宋体'
+    font-family: '宋体',serif
         /*background-color: #fff;*/
         /*opacity: 0.2;*/
 }

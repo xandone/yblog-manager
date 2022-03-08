@@ -93,7 +93,7 @@ export default {
       var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;
       var imgsrcArr = [];
       var tem = [];
-      while (tem = reg.exec(htmlstr)) {
+      while (tem === reg.exec(htmlstr)) {
         imgsrcArr.push(tem[2]);
       }
       return JSON.stringify(imgsrcArr);
@@ -231,7 +231,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "@/common/base.scss";
+@import "~@/common/base.scss";
 
 .edit-root {
   width: 100%;
